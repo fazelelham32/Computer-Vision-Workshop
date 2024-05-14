@@ -1,0 +1,1369 @@
+# Computer Vision for Engineering and Science
+
+Computer vision algorithms are running on our phones, cars, and 
+even our refrigerators. 
+As cameras are added to more and more devices, the need for 
+people with computer vision experience is growing rapidly. 
+That's why math works created computer vision for engineering and 
+science on coursera.
+Play video starting at ::27 and follow transcript0:27
+In this three course specialization, you'll complete projects like, 
+aligning satellite images, training models that identify road signs, 
+and tracking objects, even as they move out of view.
+Play video starting at ::43 and follow transcript0:43
+>> Sounds exciting. 
+Let's see how you gain those skills. 
+In course 1, you'll learn the fundamentals of computer vision.
+Play video starting at ::52 and follow transcript0:52
+You'll apply a variety of algorithms, to extract useful features from images.
+Play video starting at ::57 and follow transcript0:57
+These features are used in many applications, 
+like image registration, classification, and tracking.
+Play video starting at :1:6 and follow transcript1:06
+By the end of course 1, you'll detect, extract, and 
+match features to align, and stitch together images like these.
+Play video starting at :1:15 and follow transcript1:15
+In course 2 of the specialization, 
+you'll use these images with popular machine learning algorithms, 
+to train image classification and object detection models.
+Play video starting at :1:27 and follow transcript1:27
+However, training a model is only one part of the workflow. 
+To achieve good results, you'll learn to properly prepare your images for 
+machine learning, and evaluate the trained model on test images. 
+Importantly, the skills you gain, also applied to deep learning, 
+where feature extraction is done by the network during training. 
+>> And speaking of deep learning, 
+there are a growing number of models already available. 
+In course 3, you'll import and use common deep learning models, like, 
+YOLO, to perform object detection. 
+Detecting objects is often the first step in a larger workflow, for example, 
+detection is used with motion prediction, to differentiate, and 
+track objects over time.
+Play video starting at :2:15 and follow transcript2:15
+At the end of the specialization, you'll apply tracking to count the number of cars 
+going in each direction on a busy road.
+Play video starting at :2:23 and follow transcript2:23
+>> To be successful in these courses, 
+it'll help to have some prior image processing experience.
+Play video starting at :2:30 and follow transcript2:30
+If you're brand new to working with image data, we recommend also enrolling in our 
+image processing for engineering and science specialization on Coursera.
+Play video starting at :2:40 and follow transcript2:40
+Computer vision is an exciting, and growing field.
+Play video starting at :2:45 and follow transcript2:45
+The specialization will give you the skills to succeed in a world where images, 
+and cameras, are more important than ever. 
+
+In many applications, from 
+autonomous systems engineering to scientific research, 
+you'll need to differentiate between 
+objects and track them over time. 
+Before you can track objects, 
+you have to detect them. In this course. 
+You'll start by detecting objects 
+in videos using pre-trained models, 
+including deep neural networks. 
+Many general and special-purpose object detection models 
+are readily available for use in MATLAB. 
+Sometimes though, using a machine or 
+deep learning model is unnecessary and inefficient. 
+You'll also review image 
+processing-based techniques 
+to segment objects of interest 
+and you'll learn new tools like 
+optical flow to detect motion and moving objects. 
+However, as far as detection is concerned, 
+every new frame and a video is a whole new world. 
+Objects in one frame have 
+no connection to previous frames. 
+That's where object tracking comes in. 
+Object tracking enables you to 
+distinguish objects over time. 
+Reduce the effects of flawed detections, 
+and keep track of objects 
+that are temporarily obscured from view. 
+At the end of this course, 
+you'll analyze highway traffic flow using 
+the detection and tracking techniques you 
+learned. Let's get started.
+### Meet Your Instructors
+
+Amanda Wang is an Online Content Developer at MathWorks. She earned a B.S. in Mathematics with Computer Science and a B.S. in Business Analytics from MIT in 2020. In addition to developing MATLAB-based courses with the Online Course Development team, she is currently pursuing an M.S. in Computer Science from the University of Illinois Urbana-Champaign.
+Isaac Bruss is a Senior Online Content Developer at MathWorks. He earned his Ph.D. from the University of Massachusetts Amherst in 2015, performing research in a number of projects related to biophysics. One such project involved using confocal microscope videos to track the migration of nanoparticles tethered to a surface using DNA. Most recently, he taught undergraduate physics at Hampshire College. Now at MathWorks, he happily supports and designs MATLAB-based online courses.
+Matt Rich is a Senior Online Content Developer at MathWorks. He holds a Ph.D. and M.S. in Electrical Engineering from Iowa State University. His Ph.D. research developed new methods to design control systems over networks with communication interrupted by random processes. His MS research focused on system identification and robust control methods for small UAVs with uncertain physical parameters. Prior to his current role, he worked supporting MathWorks Model-Based Design tools in industry and academia.
+Megan Thompson is a Senior Online Content Developer at MathWorks. She earned her Ph.D. in bioengineering from the University of California at Berkeley and San Francisco in 2018. As a medical imaging research scientist, she used image processing to study concussions in football, dementia, schizophrenia and more. Now at MathWorks, she designs and supports MATLAB-based online courses to help others analyze data and chase their own answers. 
+Brandon Armstrong is a Senior Team Lead in Online Course Development at MathWorks. He earned a Ph.D. in physics from the University of California at Santa Barbara in 2010. His research in magnetic resonance has been cited over 1000 times, and he is a co-inventor on 4 patents. He is excited to create courses on image and video processing as he owns a green screen just for fun!
+
+#### Course files and MATLAB
+There are many reasons to detect 
+objects and images in videos. 
+Autonomous driving 
+or driver assistance systems identify pedestrians, 
+lane markings, traffic signs, and other vehicles. 
+Medical professionals need to isolate 
+abnormalities or patterns 
+that can indicate injuries or disease, 
+researchers in biological sciences need 
+to detect moving cells to study their behaviors, 
+and industrial quality control systems must 
+first locate objects before checking for defects. 
+Fortunately, there's a growing number of 
+pre-trained detectors that can solve problems like these. 
+In this lesson, you will apply a pre-trained object 
+detector to a video clip 
+and create an annotated video file with your results. 
+Annotating a video means adding a bounding box 
+around the objects of interest in each frame of the file. 
+To do this, you will apply 
+an object detector to each frame. 
+The detector returns the location 
+and size of the bounding box for each of 
+the objects of the type to be detected. 
+Then you can overlay the box on 
+the frame to highlight the object. 
+Finally, you'll create a new video file 
+from the annotated frames. 
+While it is certainly possible to create 
+and train your own detector, 
+it's often unnecessary. 
+Many general and special purpose detectors 
+are readily available. 
+Using models created by 
+computer vision specialists 
+allows you to focus on your application. 
+Most detectors are created using 
+either classical machine learning 
+or a deep learning neural network. 
+Aggregate channel features or 
+ACF is a modern machine learning algorithm. 
+MATLAB provides pre-trained versions of 
+this model for detecting people and vehicles. 
+These are very task-specific, 
+but that helps keep the model size 
+small and prediction speed fast. 
+Deep learning-based detectors are much more general, 
+but require considerably more 
+computational resources to use. 
+MATLAB provides two popular families of detectors, 
+Region-based Convolutional Neural Networks or 
+R-CNN and YOLO or You Only Look Once. 
+These can detect any of the 80 classes of objects 
+from the Common Object Collection or COCO dataset. 
+Each class of model also has versions trained for 
+specialized tasks like vehicle detection. 
+Other general purpose and specialized models 
+are available from the MATLAB deep learning model hub, 
+on GitHub, which you can import into MATLAB. 
+The YOLO detectors were 
+the first deep learning models to 
+achieve real-time object detection. 
+Let's use one to detect cars in this dash cam footage. 
+Start by loading the YOLO vehicle detector. 
+This command can take awhile to run, 
+so place it before a section break, 
+so you can run the rest of the code separately. 
+Use the VideoReader function to import the video file, 
+and the VideoWriter function to save the output video. 
+Frames can be read sequentially with 
+the readFrame function or 
+specific frames can be read with the read function. 
+To test the detector, 
+read in and view a sample frame of the video. 
+There's one car in the frame, 
+let's see if the detector finds it. 
+Use the detect function with the detector 
+and the image as inputs. 
+The result is the size and location of any bounding boxes 
+and a score for the strength of each detection. 
+While different detectors have unique scoring scales, 
+a higher score is always a more likely match. 
+The insertObjectAnnotation function will 
+add the bounding box to the frame. 
+Here we'll use the detection score as the label.
+Play video starting at :4:55 and follow transcript4:55
+This works well when one or 
+more of the objects are detected. 
+But if there are none, 
+the function will return an error. 
+Wrap the annotation function in 
+an if statement to make sure 
+there is an annotation to add. 
+Surrounding the detection 
+and annotation commands with a while loop, 
+we'll apply the detector to the entire video.
+Play video starting at :5:24 and follow transcript5:24
+Rather than view each frame as it is created, 
+we can write it 
+to a new video file using the VideoWriter. 
+Be sure to open and close 
+the VideoWriter before and after use.
+Play video starting at :5:45 and follow transcript5:45
+After the code is run, 
+you can view the movie with the implay function.
+Play video starting at :5:54 and follow transcript5:54
+This general workflow can also 
+be applied to images that do not form a video. 
+If an image datastore is used in place of the video file, 
+the same steps can be used. 
+The result will now be a new series of image files 
+with the bounding boxes 
+superimposed over the objects of interest. 
+Many classes of objects are readily 
+detected by pre-trained models available with MATLAB. 
+They are a great way to quickly 
+get started with object detection.
+## Using Pre-trained Deep Learning Models
+
+1.	Follow the instructions below to install the YOLO version 4 object detection model. 
+2.	Open the detectObjectsWithDeepLearning.mlx file included with the course to use a deep learning model to detect objects.
+Accessing Pre-trained models
+Some special-purpose detectors are included in MATLAB, like the YOLO vehicle detector shown in the video. Larger, more general models are listed on the MATLAB Deep-Learning Model Hub.
+Installing a deep-learning model
+•	Use the Add-On Manager in MATLAB to install a model listed on the MATLAB Deep-Learning Model. The Add-On Manager is located in the Home tab, as shown below.
+ 
+•	Search for "Computer Vision model for yolo." You will see something like the image below. You may need to scroll or Filter by Source for MathWorks.
+ 
+•	Select the Computer Vision Toolbox Model for YOLO v4 Object Detection created by MathWorks.
+•	Follow the instructions to install the model.
+•	Open the detectObjectsWithDeepLearning.mlx script included with the course files to see how to use this model!
+•	There are a growing number of 
+•	pre-trained models available to perform object detection. 
+•	If you find a model that provides 
+•	sufficient quality detection for 
+•	your use case, you're good to go. 
+•	But what if you don't? You could train a model. 
+•	Keep in mind though that training models, 
+•	especially deep neural networks, 
+•	can take significant effort and 
+•	resources which may not always be readily available. 
+•	In many circumstances, 
+•	image processing approaches will be more than sufficient. 
+•	If you can consistently distinguish your objects of 
+•	interest using 
+•	intuitive visual features such as brightness, 
+•	color, shape, or size, 
+•	then it is often more efficient to design 
+•	an image processing algorithm to segment them. 
+•	For example, consider fluorescence microscopy. 
+•	In this video, amoeba are 
+•	attempting to digest yeast cells. 
+•	The yeast cells are fluorescently 
+•	labeled so you should be able to 
+•	segment them using the relative size 
+•	along with color information or grayscale intensity. 
+•	Let's go into MATLAB and walk through one workflow 
+•	to segment the yeast in the video 
+•	using the grayscale intensity. 
+•	First, read the video into MATLAB, 
+•	extract a sample frame, 
+•	and convert it to grayscale. 
+•	Next, open the image segment or 
+•	app and load the grayscale image into the app. 
+•	In this case, there's a strong difference 
+•	between the bright fluorescence 
+•	and the rest of the image. 
+•	Use the manual threshold on 
+•	the grayscale intensity to roughly segment the yeast. 
+•	Here, we're missing the center of the yeast, 
+•	so use the Fill Holes feature to fill this region in. 
+•	Now the remaining artifacts 
+•	are smaller in size than the yeast cell. 
+•	This means you can eliminate 
+•	them with a morphological opening.
+•	Play video starting at :2:25 and follow transcript2:25
+•	This looks good. To apply 
+•	these steps to other frames in 
+•	the video, export a function. 
+•	You could save this as a dedicated function file. 
+•	But in this case, let's just copy it into the bottom 
+•	of our script so we can call it anywhere in the script. 
+•	To apply these steps to the color frames of the video, 
+•	create a copy of the input with a new name, 
+•	assign the grayscale conversion 
+•	back to the original variable, 
+•	and finally, update the masked image 
+•	to use the color version. 
+•	Don't forget to replicate 
+•	the binary mask in all three color planes. 
+•	Now let's test this function on 
+•	the sample frame and view 
+•	the results to make sure it works. 
+•	It's a good idea to test 
+•	your segmentation function on a few other frames. 
+•	Let's try another one.
+•	Play video starting at :3:26 and follow transcript3:26
+•	One more for good measure. Looks good. 
+•	To add a bounding box and label like you saw earlier, 
+•	first use the regionprompts function 
+•	to return the bounding box for the segmentation. 
+•	Then use this result with 
+•	the InsertObjectAnnotation function to 
+•	add a labeled bounding box. 
+•	Here we'll use the label yeast. 
+•	Finally, check that the result is what you expect. 
+•	Now you're ready to process all the frames in 
+•	the video as you've seen previously. 
+•	Create a new video writer object, 
+•	open it, and close it. 
+•	Then between the open and closed commands, 
+•	use a for loop to iterate through the video frames. 
+•	Finally, write each frame to 
+•	the new video. There you have it. 
+•	You've detected the high fluorescence yeast cells 
+•	using classical image processing techniques. 
+•	In this video, we only scratched 
+•	the surface of the image processing methods 
+•	available in MATLAB. 
+•	Many of which have useful apps 
+•	capable of generating code like you saw here. 
+•	If you're unfamiliar with segmenting images in MATLAB, 
+•	or feel like you could use a refresher on 
+•	the functions and apps available for segmentation, 
+•	we have an image processing specialization 
+•	available on Coursera as well.
+
+Navigate to the Module 1 folder and open the file reviewOfSegmentingImages.mlx file to work through the script to review some approaches to segmentation.
+Module Assessment
+You used pre-trained deep-learning models and image segmentation in this module to detect objects. Now, it's time to apply these skills. The assessment is broken into two parts:
+1.	A quiz where you'll apply the YOLO pre-trained network to an image of cars on a busy street. The image you'll work with is a single frame from a video used for the final project.
+2.	A coding assignment where you need to segment curling stones from the background. 
+Part 1
+Start by taking the quiz. You'll apply the tiny and large base-network YOLO models to a single frame from a video of vehicles on a busy street and investigate the accuracy of the detections. The provided "detectObjectsWithDeepLearning.mlx" reading will be helpful for the quiz.
+Bonus: Try applying the tiny YOLO detector to the video "MathWorksTraffic.mp4" included in the course files. How does the detector do? What if you lower the detection "Threshold" value? It will take 1-3 seconds to detect every frame using the tiny YOLO detector. If you use the full YOLO detector, it may take an hour without a GPU.
+Part 2
+In Part 2, you'll identify curling stones (curling is a winter Olympic sport) by segmenting them from the background. We encourage you to work in MATLAB, using apps like the Image Segmenter app, or writing code to do the segmentation. Once you're satisfied with your segmentation, copy your code into the online grader for assessment. 
+
+### Project: Segment an Image
+An image of curling stones is included with the course files. Segment the image such that the curling stones are turned into true pixels and the background is false. We recommend working in MATLAB and copying your code into the online grader.
+________________________________________
+This course uses a third-party app, Project: Segment an Image, to enhance your learning experience. The app will reference basic information like your Coursera ID.
+motion detection is a common task in many applications. 
+For example, by detecting motion, you can estimate the trajectory of objects, 
+helping you determine if a person is crossing the street or 
+safely walking on the sidewalk. 
+Other applications include camera stabilization and 
+helping autonomous systems map their surroundings, just to name a few. 
+There are several ways to detect motion in a video clip. 
+A moving object against a stationary background can be 
+segmented using background subtraction. 
+This method can be implemented with basic image processing techniques by 
+subtracting a static background image from each frame. 
+You can isolate moving objects. 
+This of course requires a static background feature 
+based motion detection works similarly to image registration. 
+You detect and extract features from an object in one frame, 
+then match those features in later frames. 
+By doing so, the translation and rotation of an object can be computed. 
+However, for this approach to work, you first isolate 
+the object of interest like a face before extracting features 
+in template matching, you select a portion of an image and 
+search the following frames for that pattern of pixels. 
+This method is especially useful for stabilizing jittery video, 
+where orientation and lighting are consistent between frames. 
+You determine the motion by keeping track of the template location in each frame. 
+You'll use template matching later in this course all three of these 
+techniques require you to do some processing to detect motion, 
+creating a static background image, 
+detecting the object of interest or identifying an object that appears 
+in the same orientation throughout the video to use as a template. 
+However, in some applications, none of these approaches will work. 
+So what do you do? 
+Optical flow is a powerful technique to determine motion. 
+It uses the differences between subsequent video frames and 
+the gradient of those frames to estimate a velocity vector for every pixel. 
+Thus you don't need to first identify an object or static background. 
+You can then annotate the video by adding the velocity vectors to each frame. 
+Objects moving right or left are easy to distinguish by the large 
+arrows pointing in the direction of motion. 
+Velocity arrows indicating motion towards or away from the camera are less 
+obvious objects moving away from the camera will have outlines getting smaller, 
+so the edges will have velocities that converge objects moving towards. 
+The camera will get larger and the velocity vectors will diverge. 
+There is a key constraint with optical flow. 
+The illumination of the scene must be approximately constant 
+because optical flow uses the difference in pixel intensities between 
+frames a shadow or change in lighting could appear as motion. 
+This affects the other approaches to motion detection as well, 
+but it is still possible to match features or 
+a template with some changes in illumination. 
+You already have the skills to determine motion. 
+Using background subtraction and feature matching. 
+Next, you'll learn to apply optical flow and template matching
+### Concept Check: Introduction to Motion Detection
+
+Submit your assignment
+Not only is a jittery video unpleasant to look at, 
+but it also complicates 
+further analysis like object detection and segmentation. 
+Here, you'll learn the steps 
+needed to stabilize a shaky video. 
+Specifically, you will 
+correct the common problem of camera shake in 
+the X-Y plane when there's 
+a stationary object to use as a reference. 
+This assumption means stationary object does not change 
+size or orientation due to camera motion. 
+The process of stabilizing 
+such videos consists of the following steps: 
+motion estimation, 
+camera motion estimation, and video correction. 
+Consider how the location of an object 
+changes from frame to frame in a video. 
+The position of an object in 
+the current frame is its position in the previous frame 
+plus the apparent motion between frames. 
+You estimate the motion using 
+techniques like optical flow or template matching. 
+Assuming the camera moves only in the X-Y plane, 
+the apparent motion is the sum of 
+the camera motion and object motion. 
+This is where it helps to have 
+a stationary object in the video. 
+Then the component of 
+the motion due to the object moving is zero, 
+and the apparent motion is entirely due to camera motion. 
+The last step is to perform video correction. 
+You stabilize the current frame 
+by subtracting the camera motion. 
+However, to stabilize 
+the video with respect to the original frame, 
+you need to account for the cumulative motion of 
+the camera from all previous frames. 
+Thus, the stabilized frame is 
+the current frame minus 
+the cumulative camera motion from all previous frames.
+Play video starting at :2:24 and follow transcript2:24
+To practice this process, 
+we have provided an example video and 
+script in the course materials. 
+Here we'll cover the main components. 
+The camera is moving in the X-Y plane, 
+but there are stationary objects that 
+can be used for motion estimation. 
+The corner of this traffic sign might make for 
+a good object because it 
+appears throughout the entire video 
+and is not easily 
+confused with other objects in its vicinity. 
+Window corners or this pole are not 
+good choices because they are not 
+unique and will be difficult 
+to correctly match between frames. 
+We'll use a template-matching 
+algorithm to establish the apparent motion, 
+which is usually done on grayscale images. 
+Template-matching works by providing a template from 
+a reference image and finding 
+the closest match in a new target image. 
+Like spatial filtering, 
+the template is moved across the image 
+and the sum of squared differences or SSD 
+is calculated for each pixel in the target image. 
+The position with the smallest SSD 
+corresponds to the position of 
+the template in the new image.
+Play video starting at :3:48 and follow transcript3:48
+In MATLAB, you do this using 
+the TemplateMatcher object. 
+While not necessary, 
+it's a good idea to specify 
+a region of interest to perform the search. 
+This is more efficient as the algorithm 
+will search only in the specified region, 
+and using an ROI helps avoid 
+an incorrect match from a similar region in the image. 
+To find the position of the best match, 
+you call the TemplateMatcher by 
+its name and pass the following inputs: 
+the target image, the template image, 
+and the rectangular region of interest. 
+The region is given as a four-element vector 
+containing the pixel locations of the upper-left corner 
+and the width and height of the rectangle. 
+The output is the position in 
+pixels of the best match 
+of the template in the target image. 
+The position points to the center of the template. 
+Because the sign is stationary, 
+any differences in position 
+is due to the motion of the camera.
+Play video starting at :5:3 and follow transcript5:03
+Use the current and previous template positions 
+to keep track of the cumulative motion of the camera. 
+Then use the imtranslate function 
+to shift the current frame by that amount. 
+Here, the current frame was translated 
+five pixels in the positive X and Y direction, 
+resulting in a small black border on the edges. 
+After applying the correction to all frames, 
+notice that the edges of 
+the video move because 
+of the translation applied to each frame. 
+To correct this, 
+crop the stabilized video to show 
+only the parts of the scene that appear in every frame. 
+Now, you might be thinking, 
+"Hey, that is still a shaky video." 
+Let's look again, but this time with 
+a box around the starting location of two signs. 
+Stabilized video has much less motion than the original. 
+As the camera moves, 
+parts of the background move in and out of you, 
+giving the appearance of motion. 
+This should be expected if 
+your video has a varying background. 
+You now know the main concepts and functions 
+needed to stabilize a video using template matching. 
+To see a full implementation, 
+including how to keep track of the cumulative motion, 
+refer to the provided examples.
+### Considerations when Template Matching
+
+You just saw how to apply template matching to stabilize a video. Template matching worked well, but there was still some apparent motion. In this reading, you’ll investigate why a video can still exhibit significant motion even if reference objects that the template is attempting to match are perfectly stabilized. You’ll also take a closer look at the assumptions behind template matching and make your code robust when the assumptions are not strictly satisfied.
+After you complete this reading, review the two accompanying files:  simpleVideoStabilization.mlx and robustVideoStabilization.mlx
+
+## Key assumptions and why they’re necessary
+In the "Stabilizing Video with Template Matching" video, there was one explicitly stated assumption and two implicit assumptions:
+1.	The camera only moves in the plane of the image. Motion in the perpendicular direction will change the apparent size of an object throughout the video. Thus, a stationary object in the template image will appear to change size, causing the matching to fail. 
+2.	The illumination of the object in the template remains consistent throughout the video. If the illumination of the object significantly changes, the difference between the template and the reference object in later frames will be significant and more prone to mismatch.
+3.	The reference object stays inside a specified part of the image (region of interest, or ROI) or is visible in the entire video if not using an ROI. An ROI is recommended to constrain the template search. Using an ROI is more efficient and protects against matching to a similar object elsewhere in the image. If the reference object leaves the ROI during the video, an incorrect match will be returned.
+How to account for violations in the assumptions
+Fortunately, these assumptions need not be strictly satisfied to get good results. To make your code robust, update your template image and ROI every frame (or periodically based on some conditions). 
+For example, suppose there is a lot of in or out-of-plane motion and/or lighting changes in the video, but these differences are small between frames. Then, instead of using the same template image for the entire video, updating the template every frame will still satisfy assumptions 1 and 2. You do this by cropping a small region out of the current frame to use as the template for the next frame.
+The same idea can be used to update the ROI if there is significant motion throughout the video. Instead of using a fixed ROI, update the ROI based on the new position of the template. This way, the ROI moves with the reference object, making it less likely to make a wrong match.
+Code examples
+Two examples are provided with the course files for the ShakyStreet video you saw in the lesson. Both the simple and robust approaches give similar results. First, review the simple version, simpleVideoStabilization.mlx, to understand the code and process of video stabilization. Once you’re comfortable with the example, go through the robust version, robustVideoStabilization.mlx, to update the template and ROI for each frame. Examine the stabilized video. Notice that even the robust version still has apparent motion around the signs.
+
+## Why is there still movement in the stabilized video?
+Varying Distance Away from Camera
+We used a sign close to the camera in the ShakyStreet video as the template image. However, there are very distinct objects at varying distances from the camera. The animation below illustrates an extreme example where, initially, the red oval starts to the left of the triangle in the image. After the camera moves, the red oval appears to the right of the triangle. This means that objects further from the camera appear to move less than objects close to the camera. Translating frames cannot resolve this issue, and the two objects will appear to move relative to each other. Video stabilization will work best when all objects are a similar distance away from the camera.
+ 
+These values are used to estimate 
+the horizontal and vertical velocities for each pixel. 
+Because there is one equation and two unknowns, 
+this system is under-determined. 
+However, solution algorithms have 
+been developed to estimate the velocities. 
+Matlab provides several methods, 
+including Horn-Schunk, Lukas-Kanade, and Farneback. 
+In this lesson, you will detect the motion of 
+the pedestrians in this dash cam footage 
+using the Farneback method. 
+This modern algorithm has good performance and speed, 
+and works on a range of applications. 
+Your final result will be 
+a video with the moving objects segmented in each frame. 
+The syntax and workflow are the 
+same for all optical flow methods. 
+If the Farneback method doesn't 
+work for your application, 
+you can switch methods easily. 
+To get started, create 
+VideoReader and VideoWriter objects. 
+You'll also need an optical flow solver. 
+Let's focus on the portion of 
+the video where the car is stopped at the crosswalk, 
+between frames 96 and 565, 
+which were found using the video viewer app. 
+Read in the first frame and view it with IM Show. 
+There are several pedestrians in view, 
+as well as both parked and moving cars. 
+The optical flow solver must 
+be initialized with the first frame. 
+This compares the frame to 
+an all-black image to 
+create a base for future calculations. 
+Read in the next frame and apply the flow solver again. 
+The optical flow variable stores the previous frame, 
+so only the current frame is needed. 
+You view the resulting velocity vectors 
+using the plot command to add them to the image. 
+However, even this low resolution video 
+has hundreds of thousands of pixels. 
+It would be impossible to see a vector for each one. 
+To solve this, use 
+the DecimationFactor name value pair 
+to reduce the number of vectors shown. 
+For this video, showing 
+every 15th vector in the x and y-direction will work. 
+Also, since frames are one-thirtieth of a second apart, 
+the motions will be very slight. 
+The ScaleFactor will increase 
+the length of these vectors to be more visible. 
+At this point, the pedestrian motion is clearly 
+visible and the direction 
+and speed can be roughly determined by eye. 
+That's a pretty good accomplishment 
+with only a few lines of code. 
+There are a few problems though, 
+the buildings are not moving, 
+but motion vectors are present. 
+All optical flow applications will have this type of 
+noise due to the sensitivity of pixel level calculations. 
+How can you fix this? 
+Use the velocity magnitude as 
+a threshold to filter out the low-level noise. 
+The optical flow solution contains 
+the horizontal and vertical components of the velocities, 
+as well as the magnitude and direction. 
+A histogram of the magnitude distribution 
+can be used to select the cutoff value. 
+There are a lot of pixels with very small velocities, 
+since most of the frame is stationary. 
+After some trial and error, 
+a threshold of 0.5 works for this video. 
+Recall that the goal is to detect moving pedestrians. 
+Rather than looking at the velocity vectors, 
+create a mask using the threshold value. 
+This will highlight them moving objects. 
+This is a good start. 
+The stationary buildings are no longer showing motion. 
+Raising the threshold will 
+remove some of the other noise, 
+but will also remove 
+the slower moving portions of the pedestrians. 
+Since this is now a binary segmentation, 
+image processing can be used to clean it up. 
+Morphological opening removes most of 
+the noise while preserving 
+the outlines of the large regions. 
+Then, use region analysis to filter 
+the mask so that it includes only areas above 500 pixels.
+Play video starting at :6:5 and follow transcript6:05
+Now, the moving car and pedestrians are well segmented. 
+There's also a reflection of 
+a pedestrian on the hood of the vehicle. 
+You could eliminate this by using a region of 
+interest to remove the hood of the car from the frame. 
+Now, apply the workflow to the entire video, 
+just like an object detection. 
+Detecting moving objects is 
+just one application of optical flow. 
+It is a powerful technique with 
+many complex applications beyond 
+the scope of this course. 
+It's also used in physical applications, 
+including flow velocimetry and 3D mapping. 
+Optical flow is often used in deep learning workflows 
+like activity classification and image creation. 
+It is also used to create values between 
+video frames, improving video quality.
+### Practice Applying Optical Flow
+
+You now know several ways to detect motion in videos and, in particular, the diverse utility of optical flow.
+Navigate to the Module 2 folder and open the file applyingOpticalFlow.mlx. Work through the live script to calculate the optical flow and practice using the results in several different ways.
+Project: Introduction to Applying Optical Flow to Determine the Direction of Traffic
+In this module, you have seen multiple techniques for detecting motion. Although the module project asks you to use optical flow, depending on your images, there is usually more than one correct approach. 
+In this module's project, you will apply what you have learned to detect moving cars from several frames of a video portraying a busy highway. This footage was taken using a camera on a tripod, so there is little need for camera stabilization.
+ 
+In the first external MATLAB Grader tool, you will use optical flow to create a mask isolating the fastest-moving objects (cars) in each frame.
+ 
+ 
+In the second external MATLAB Grader tool, you will apply this mask to calculate the velocity in the x-direction of each car and determine how many cars are moving in each direction.
+Proceed to the next external MATLAB Grader tool to get started. You are encouraged to develop your code in MATLAB and copy it over to the Grader tool when you are ready. The images you are asked to perform optical flow on are included in the course files download.
+If you get stuck, refer to the applyingOpticalFlow.mlx live script reading, which performs similar operations on moving cars, bicycles, and pedestrians.
+Good luck!
+Project: Applying Optical Flow to Detect Moving Objects
+Copy your detection code into the online grader to see if it give the correct result.
+
+
+Object tracking is an integral part of autonomous systems engineering, 
+scientific research and countless other applications.
+Play video starting at ::15 and follow transcript0:15
+Consider this cartoon example of a couple of moving objects. 
+For each frame, in addition to object detection, 
+tracking involves repeating three main steps in a cycle.
+Play video starting at ::28 and follow transcript0:28
+The first is predicting a new location estimate for 
+all the currently tracked objects, aptly referred to as tracks, 
+using existing detections, estimates, and motion models.
+Play video starting at ::39 and follow transcript0:39
+In this example, 
+we assume the two objects continue moving with a roughly constant velocity.
+Play video starting at ::47 and follow transcript0:47
+The next step is to use the track location predictions along with all 
+the new object detections to match or assign detections to existing tracks, 
+as well as determine which are left unassigned. 
+Here, two of the detections were assigned to tracks one and 
+two based on relative location to the predictions for each, and 
+another was left unassigned since it was nowhere near any predicted track location.
+Play video starting at :1:15 and follow transcript1:15
+The third step is to use those results to update existing track 
+estimates as well as initialize or remove tracks for new or 
+lost objects, and the process is ready to repeat again. 
+That all may seem complicated, but the core processes of object tracking are so 
+intuitive and automatic for our minds, you probably take them for granted. 
+Consider navigating busy city streets, you observe or detect moving cars and 
+pedestrians periodically, but you also have predictions about what is going to 
+happen in the immediate future based on your understanding of those things.
+Play video starting at :1:55 and follow transcript1:55
+If you look away briefly, when you look back, you expect to see the same cars 
+traveling steadily forward just a bit further ahead than before.
+Play video starting at :2:5 and follow transcript2:05
+Similarly, while your view of a moving pedestrian may become obstructed, 
+you predict that you will see them emerge again in a new location 
+based on their previous velocity.
+Play video starting at :2:17 and follow transcript2:17
+Now, you might be thinking, sure, I do that, but why is this so important for 
+computer vision? 
+Do we really need more than detection?
+Play video starting at :2:26 and follow transcript2:26
+Well, even perfect detections represent an object at just one moment in time. 
+A computer needs tracking to connect the detections and 
+recognize one object across frames. 
+Also remember, the output from an object detection algorithm is often just 
+bounding boxes or the centroids of labeled pixel regions.
+Play video starting at :2:47 and follow transcript2:47
+In practice, this output is often noisy, 
+tracking helps smooth out the effects of detection noise. 
+And as you know, objects can be obscured in some frames, 
+causing detection is to be lost. 
+Tracking helps prevent loss or confusion of objects in these scenarios.
+Play video starting at :3:5 and follow transcript3:05
+In the following lesson, you'll learn to implement each of the key steps of object 
+tracking and combine them into a complete processing loop. 
+Let's get started. 
+[MUSIC]
+object tracking is done using a recursive loop. 
+Assume you've detected objects in a given video frame tracking 
+involves predicting the locations of known objects called tracks, 
+assigning matches between the detections and existing tracks, 
+updating the existing track estimates, initializing tracks for 
+new objects and removing tracks for lost objects. 
+This set of steps is repeated over and over at each frame. 
+In this video we'll take you through each of these main blocks in more detail and 
+you'll learn the components and 
+processing steps required in each to build a functioning object tracking loop. 
+I know this looks like a lot and it is but don't worry, 
+we'll go through it all piece by piece by the end of this video. 
+You'll see that while there are a lot of parts, 
+the job each does is relatively intuitive. 
+The two main things you need at each frame are the set of detections and 
+the set of tracks. 
+These are the core variables of the tracking process. 
+Each detection will include information like bounding boxes, 
+sent droids and or other information on where things appear. 
+It can also include additional data like object size or 
+metadata associated with each detection. 
+Each track contains everything you want to know about. 
+A specific object over time. 
+You'll need a fair amount of additional information for each track. 
+Things like an identifier, A running count of frames in which the object has 
+been detected as well as other information. 
+We'll circle back to this when we get to the details of the update process. 
+The real core of each track is the estimator you use the estimator 
+to predict the location of a track and compare that with new detections. 
+If a track is assigned a detection, the estimator is then updated using 
+the detection information before making a new prediction. 
+Remember at each new frame you need to predict the motion of 
+objects to know where you expect them to be. 
+You use these predictions to determine which if any detections should 
+be assigned to each track but predictions are almost never perfect and 
+detections are often noisy or even missing from some frames. 
+You use the assignment results to either update the estimate or 
+track location if a detection was assigned or 
+just use the prediction if there was no detection for the track that frame. 
+In this course you'll use a Calman filter as the estimator for each track. 
+The Coleman filter is a powerful and widely used tool to estimate the true 
+values of unknown and or noisy variables in dynamic systems. 
+While the details are beyond the scope of this course here, 
+the Coleman filter in each track generates a location prediction at 
+every frame using assumed equations of motion. 
+Then the Coleman filter in each detected track uses assumptions on measurement, 
+noise, motion model, uncertainty and a recursive li updated measure 
+of internal estimation error to combine the prediction and 
+detection into an updated track location. 
+The new track location will shift in favor of either the prediction or 
+detection based on the amount of uncertainty. 
+The common filter assumes for each you'll set parameters for 
+these uncertainties or noise levels as well as the type of motion 
+prediction model to use when you initialize new tracks for now, 
+let's go back to the overall process. 
+We've covered the set of detection and 
+tracks the predict block and the most crucial part of the update block. 
+Now let's see how to use the predictions to assign incoming detections to tracks. 
+The assignment process. 
+Takes the set of all detections in each frame and 
+the set of all existing tracks and determines which pairs to assign. 
+Notice that there may be unassigned detections such as when a new 
+object appears or there is a false detection. 
+There may also be unassigned tracks for 
+example tracks that have been obscured from view or 
+the detector failed to find at each frame. 
+You need to evaluate multiple possible combinations of assignments between 
+existing tracks and a variable set of new detections and determine the best one. 
+You do this by calculating a cost value for 
+every possible assignment as well as the cost of non assignment, 
+which means leaving either a track or detection on a sign. 
+The assignment costs should be based on proximity but can also 
+incorporate additional information like size, shape or even color. 
+In this course will assign costs using measures of distance from each prediction 
+to each detection obtained from the track. 
+Common filters so you won't have to come up 
+with the assignment cost values on your own. 
+Once you have all the costs, you minimize the total cost over all 
+possible combinations of assignment and non assignment. 
+Don't worry. 
+This optimization is solved for you by a single function in that lab Here. 
+The minimum sum of costs is reached by assigning 
+detection to to track one Detection 3 to track two And 
+leaving both detection one And Track three on assigned. 
+This reflects a scenario where due to their distance apart. 
+The third track was more likely obscured or 
+lost while the first detection more likely represents a new object or 
+possibly noise rather than a huge error detecting the third track. 
+Alright, we're almost done just a few things left in the update block. 
+Let's go through them. 
+The first thing to do is update the track locations. 
+You saw this a bit earlier. 
+For those who signed a detection, you use the common filter update process for 
+those tracks not assigned to detection. 
+You use the common filter prediction next? 
+Remember that track metadata I promised we'd circle back to when we got to 
+the update block. 
+Well here we are. 
+Track metadata can include almost anything you want. 
+However, this usually includes things like a unique identifier, 
+total detection count, overall age, consecutive missing 
+count confirmation status and whether it is currently detected or not. 
+A unique identifier is used to maintain and differentiate tracks across frames. 
+The total number of frames in which a track has been detected is used as 
+a threshold to determine whether it is reliable enough to be considered 
+a confirmed track. 
+This helps deal with noisy sporadic detections by keeping new tracks 
+unconfirmed until they've been detected enough times the number of 
+consecutive frames the track has gone undetected. 
+The total number of frames it has existed and 
+the number of frames in which it was detected are used to determine 
+when to consider a track has been lost and deleted next. 
+Any detections that were not assigned are considered potential new objects. 
+So you create a new track for each initializing a Coleman filter and 
+setting initial metadata since detection can be false. 
+This is where the confirmed status we just mentioned comes in. 
+You'll only confirm tracks after a certain detection count and 
+finally you'll use data on age detected frames and 
+consecutive missing frames to delete tracks that do not seem to be reappearing. 
+Well you made it. 
+This was a lot to take in so don't worry if everything isn't perfectly clear yet, 
+you'll get plenty of step by step, practice and 
+reference materials in the rest of this lesson
+[MUSIC] 
+There are many processes and 
+parameters you need to define to build a functioning object tracker. 
+In this video, we'll take you through an example of how to implement each 
+of these steps in MATLAB.
+Play video starting at ::20 and follow transcript0:20
+We'll test the overall algorithm out by tracking these cells. 
+Importantly, you have access to the code and the video to experiment with on 
+your own, and to use as a template to track objects in other scenarios.
+Play video starting at ::39 and follow transcript0:39
+You implement the overall tracking process in a loop over each frame.
+Play video starting at ::44 and follow transcript0:44
+You use individual functions to perform object detection, 
+track prediction, detection to track assignment and track updates.
+Play video starting at ::54 and follow transcript0:54
+Of course you'll want to have some way to save and display your results as well.
+Play video starting at ::59 and follow transcript0:59
+We could add this to our diagram as an additional block.
+Play video starting at :1:4 and follow transcript1:04
+The loop is purposefully a modular structure. 
+This enables you to substitute in a new function for a particular step. 
+For example, detection while leaving the rest of the code unchanged, 
+or add additional functions for example, to analyze your results at every frame.
+Play video starting at :1:23 and follow transcript1:23
+For now, we'll focus on the core tracking algorithm you've seen previously.
+Play video starting at :1:29 and follow transcript1:29
+While detection is a critical part of tracking, 
+it's often developed independently and has been covered in previous materials.
+Play video starting at :1:37 and follow transcript1:37
+We'll focus on the implementation details of the prediction, 
+assignment and update processes here.
+Play video starting at :1:45 and follow transcript1:45
+Now, notice the set of tracks is initialized before the loop as 
+an empty table.
+Play video starting at :1:51 and follow transcript1:51
+This is to enable the loop to run when there are no tracks yet.
+Play video starting at :1:56 and follow transcript1:56
+Let's see what happens for the very first frame with detected objects.
+Play video starting at :2:1 and follow transcript2:01
+There are no tracks to make predictions on yet. 
+So, nothing will happen in the predict function. 
+Similarly, since there are no tracks to assign detections to, 
+all detections will be passed through the assignment function as unassigned. 
+Initialization of new tracks for 
+unassigned detections happens in the update function. 
+So, let's examine this function first by right clicking and 
+selecting open update tracks.
+Play video starting at :2:31 and follow transcript2:31
+The first thing we do in this function is define a counter variable to use 
+as a track identifier. 
+We use a persistent variable so that we can accumulate the count of how 
+many tracks we've made through multiple updates. 
+Since this is the first time through and the tracks table is empty, 
+the code to update the track locations, update track metadata and 
+delete lost tracks is all skipped on this iteration.
+Play video starting at :3:1 and follow transcript3:01
+Don't worry, we'll be coming back to all of this in the following frame iteration.
+Play video starting at :3:6 and follow transcript3:06
+Now here you assign new tracks to the unassigned detections. 
+For each unassigned detection, 
+initialize a common filter with the configure common filter function.
+Play video starting at :3:19 and follow transcript3:19
+This function requires a set of parameters for a given tracking scenario.
+Play video starting at :3:25 and follow transcript3:25
+Here, we use the detected centroid to define the initial location. 
+Set the filter type to assume constant velocity, and choose estimates for 
+initial error, motion noise and measurement noise.
+Play video starting at :3:40 and follow transcript3:40
+While the values for these parameters are largely going to come down to trial and 
+error, remember that the relative size of the motion noise and 
+measurement noise affects how much your filter trusts its own internal model or 
+the detections respectively.
+Play video starting at :3:54 and follow transcript3:54
+After that, you initialize track data, create variables for 
+the detected, tracked, and predicted locations, and 
+initialize them all to the first detected location.
+Play video starting at :4:8 and follow transcript4:08
+Then, create a variable for track age and set it to 1. 
+Account of detected frames and set it to 1. 
+Account of consecutive undetected frames and set it to 0. 
+A detected flag and set it to true, and a confirmed status and set it to false, 
+create a new track entry using all of these variables to form a single row 
+table and add it to the tracks table and increment the track ID.
+Play video starting at :4:40 and follow transcript4:40
+Okay, let's go back to the overall process and assume we're on the next video frame, 
+and we have a new set of detections.
+Play video starting at :4:49 and follow transcript4:49
+Now, on this iteration, the predict function will make predictions for 
+the tracks initialized previously. 
+Let's see how. 
+This function takes the set of tracks in and predicts a location for each. 
+Then outputs the updated tracks.
+Play video starting at :5:5 and follow transcript5:05
+In MATLAB, this only takes a few lines of code.
+Play video starting at :5:9 and follow transcript5:09
+Just loop through the table of tracks, and use the predict function on the common 
+filter in each track to get a new predicted location.
+Play video starting at :5:21 and follow transcript5:21
+The next function in the loop is detection to track assignment.
+Play video starting at :5:27 and follow transcript5:27
+This function takes in the sets of detection and tracks, and 
+updates both with assignment information.
+Play video starting at :5:34 and follow transcript5:34
+The first thing you do here is get the cost for 
+each possible assignment by looping through the tracks table and using 
+the distance function of the common filter with every detection location as an input.
+Play video starting at :5:47 and follow transcript5:47
+Next, you set a cost of non-assignment like the common filter parameters. 
+This may take some trial and error when working with a new video. 
+Just remember, the smaller this cost, the more likely you are to leave tracks and 
+detections unassigned.
+Play video starting at :6:3 and follow transcript6:03
+Then, you solve the assignment optimization using 
+the assignDetectionsToTracks function included with MATLAB.
+Play video starting at :6:11 and follow transcript6:11
+The assignments output specifies index pairs for the tracks and 
+detections that were assigned to each other in each row.
+Play video starting at :6:19 and follow transcript6:19
+In the rest of this function, set the detected status to false for 
+undetected tracks, and true for 
+detected tracks using the first column of the assigned index pairs. 
+Then, add the detective central location to each assigned track using 
+the columns of the assigned index pairs.
+Play video starting at :6:39 and follow transcript6:39
+Finally, set in assigned status to false for unassigned detections. 
+And true for assigned detections using the 2nd column of the assigned index pairs.
+Play video starting at :6:51 and follow transcript6:51
+Now, this time we have both detections and tracks when reaching the update block. 
+So let's take another look at that function.
+Play video starting at :7:1 and follow transcript7:01
+You've all ready seen the creation of the track ID counter. 
+This time though, the tracks table is not empty.
+Play video starting at :7:8 and follow transcript7:08
+So for each track that is currently detected, 
+you update the track location using the correct function, 
+with the KalmanFilter and detected location as inputs.
+Play video starting at :7:20 and follow transcript7:20
+Note that this does not simply replace the track location with the detection. 
+It uses the prediction, detection and 
+estimates of uncertainty to create a new track location. 
+For any tracks that were not detected in this frame, 
+you update the track location to be equal to the predicted location.
+Play video starting at :7:39 and follow transcript7:39
+Next, you update the track metadata. 
+Start by implementing the age for all tracks.
+Play video starting at :7:46 and follow transcript7:46
+Then, increment the total number of detected frames for 
+all tracks that are currently detected.
+Play video starting at :7:52 and follow transcript7:52
+Then, use the total detection count to confirm tracks that have met a threshold.
+Play video starting at :7:58 and follow transcript7:58
+This helps to filter out sporadic tracks created from false detections. 
+For all detected tracks, reset the consecutive undetected count to 0. 
+For tracks that were not detected, increment this count by 1. 
+Next, you delete unreliable or lost tracks.
+Play video starting at :8:18 and follow transcript8:18
+First, calculate the visibility which is the fraction of each tracks age 
+that it was detected.
+Play video starting at :8:26 and follow transcript8:26
+Then, set thresholds for age, low visibility and the number of 
+consecutive frames a track can go undetected until it is considered lost.
+Play video starting at :8:36 and follow transcript8:36
+Use these thresholds to find the indices in the tracks table for 
+which the track age, visibility and 
+count of consecutive frames undetected do not meet your thresholds. 
+And combine those indices to delete tracks that are both to new and 
+low visibility or which are considered lost. 
+From there, initialize a new track for 
+each unassigned detection as you saw previously. 
+And that's it, you've covered the details of the prediction, assignment, 
+and update processes over two iterations of the object tracking loop.
+Play video starting at :9:15 and follow transcript9:15
+Now, of course you'll want to see the results.
+Play video starting at :9:19 and follow transcript9:19
+So let's take a quick look at how will display results for this example, 
+we first extract the confirmed tracks from the overall table using the confirmed 
+status variable.
+Play video starting at :9:30 and follow transcript9:30
+Then, we create labels using the track IDs. 
+We place the labels slightly offset from the locations so 
+that both will be visible. 
+And finally, we add a plus symbol at the location of each track.
+Play video starting at :9:45 and follow transcript9:45
+Let's have a look at the results.
+Play video starting at :9:49 and follow transcript9:49
+Looks pretty good.
+Play video starting at :9:52 and follow transcript9:52
+As the second yeast cell becomes bright enough, we start tracking it as well.
+Play video starting at :9:56 and follow transcript9:56
+Then as the first dies down in brightness, we stopped tracking it and 
+continue to track the second yeast cell.
+Play video starting at :10:5 and follow transcript10:05
+Now it's your turn. 
+We've provided you with the code you saw here to get you started, save a backup 
+copy and play around with the parameters on your own to see what effects they have.
+Play video starting at :10:16 and follow transcript10:16
+Try displaying more information such as the detection or confirmation status. 
+Ask for help on the forms if you get lost.
+Play video starting at :10:24 and follow transcript10:24
+When you're ready, head to the course project of tracking cars on a busy highway 
+to apply your new skills.
+
+### Reference: Important Tracking Parameters
+
+There are several important parameters you must set when tracking objects. Use this reading to remind yourself of these parameters, where they are used, and how adjusting them can affect your results. Key parameters for each block are described below. 
+You're encouraged to explore the other parameters to investigate their impact on the tracking results. There is no single correct answer, as many combinations may work.
+ 
+DETECT objects
+Centroid: While there are many ways to detect objects, tracking requires that you return an x-y location to track. This is usually a centroid. Your detect function can also output other data to add to your track. Common examples include bounding boxes and object labels.
+ASSIGN detections to tracks
+Cost of non-assignment: This parameter sets an upper limit on the cost to assign a track to a detection and vice versa. If the cost to assign a track or detection is higher than the cost of non-assignment, then the track or detection is left unassigned. 
+Decrease this value to force predicted locations and detected locations to be closer before being assigned to one another. Keep in mind that the initial predictions for new tracks are not very accurate. Decreasing this value too much could result in track and detections being unassigned that should be assigned. 
+UPDATE tracks
+Confirmation threshold: Sets the number of frames a track must be visible to be a confirmed track. Increasing this number can help reduce the effect of false positives and noise for analyzing confirmed tracks.
+Lost threshold: The number of consecutive frames that a track can go unassigned before it is considered lost and deleted. A smaller value will help reduce the effect of false detections. A small value also helps to remove tracks that leave the frame. However, if objects are likely to be occluded or undetected for several frames, you will need to increase this value to account for the time an object is not detected.
+Age threshold: The number of frames a track is considered “new.” New tracks may be false detections. This is often combined with a visibility threshold to delete new tracks that are only sporadically detected. 
+Visibility threshold: Visibility is the ratio of frames visible over the total age for a track. This is usually combined with an age threshold so that only new tracks with low visibility are deleted.
+Kalman filter parameters: You do not need to adjust these parameters in this course. In practice, you will have estimates for your initial error, motion noise, and measurement noise. Correctly setting these parameters will help the Kalman filter make better predictions more quickly.
+PREDICT tracks
+No parameters here! Use the predict function to return predicted locations for each track. The predict function has a 2nd output argument for the tracked state of the Kalman filter. The tracked state takes the following form:
+[xPosition; xVelocity; yPosition; yVelocity]
+You’ll learn more about the tracked state later.
+
+Example: Tracking Cells
+You now know the most important components of tracking objects. Navigate to the Module 3 folder, open the file trackCellMotion.mlx, and work through the live script. Try changing some of the tracking parameters and see how they influence the results. This example includes a simple analysis function to illustrate how to analyze your tracks and store the results while tracking.
+
+#### Interesting Results and Ideas
+Did you observe any interesting or odd results while exploring the cell tracking script? For example: What happens if you set the costOfNonAssignment = 5 instead of costOfNonAssignment = 200? Why do you think this happens? 
+If you set lostThreshold = 1 instead of lostThreshold = 10, what happens to the confirmed track Ids in the analysis results tables? Can you tell what may be happening by viewing the resulting tracking video? 
+Congratulations on reaching the end of the course, 
+you've added several new techniques to your computer vision tool set.
+Play video starting at ::12 and follow transcript0:12
+You used pre trained deep learning models for object detection and 
+applied optical flow to detect moving objects.
+Play video starting at ::21 and follow transcript0:21
+In many applications like autonomous systems detection is only one part of 
+a tracking workflow. 
+But you're now able to apply tracking to identify individual objects across frames 
+and predict their future locations even if they are temporarily lost from view.
+Play video starting at ::39 and follow transcript0:39
+Now it's time to apply your new skills to a final project.
+Play video starting at ::43 and follow transcript0:43
+If you completed our image processing specialization, 
+you detected cars in a video similar to this.
+Play video starting at ::50 and follow transcript0:50
+This time you need to add tracking to count each vehicle and its direction.
+Play video starting at ::58 and follow transcript0:58
+This project has many possible solutions and 
+you're encouraged to try a variety of approaches. 
+To help we've broken the project into three parts, 
+part 1 is to come up with a way to detect vehicles.
+Play video starting at :1:13 and follow transcript1:13
+Some ideas include using background subtraction, 
+optical flow or a deep learning model like Yolo.
+Play video starting at :1:22 and follow transcript1:22
+You don't need the dissection to be perfect. 
+Remember that tracking can handle some detection noise while 
+completing the detection task consider if your approach would work in different 
+weather conditions or times of day.
+Play video starting at :1:36 and follow transcript1:36
+Also consider the processing power required.
+Play video starting at :1:39 and follow transcript1:39
+YOLO is a powerful model, but 
+it takes significant time to process the entire video.
+Play video starting at :1:46 and follow transcript1:46
+These are important considerations for your own projects.
+Play video starting at :1:50 and follow transcript1:50
+The next task is to implement a tracking algorithm that successfully counts 
+the number of vehicles.
+Play video starting at :1:57 and follow transcript1:57
+There are several key parameters you'll need to explore and 
+update to successfully track each vehicle.
+Play video starting at :2:4 and follow transcript2:04
+For example, if your detection algorithm is a bit inaccurate, 
+you may need to increase the number of visible frames before confirming a track.
+Play video starting at :2:14 and follow transcript2:14
+After completing parts 1 and 2, you've done enough to pass the project, but 
+we encourage you to go on one step further.
+Play video starting at :2:23 and follow transcript2:23
+Part 3 is to count the number of vehicles moving in each direction.
+Play video starting at :2:28 and follow transcript2:28
+To do this, you need to add additional code to determine the direction of each of 
+your confirmed tracks.
+Play video starting at :2:35 and follow transcript2:35
+You can do this using the state property of your common filter or 
+if you use optical flow, you can use the flow vectors for your detected objects.
+Play video starting at :2:46 and follow transcript2:46
+No matter the approach, you'll need to add some extra bookkeeping to the code.
+Play video starting at :2:51 and follow transcript2:51
+Great work reaching the end of the course by completing this final project, 
+you'll have a real world example that showcases your new skills. 
+Good luck. 
+
+
+#### Final Project Part 1: Detecting Cars
+Before you can track and count the cars, you need to detect them. This reading provides hints on how to detect cars in the MathWorksTraffic.mp4 video.
+Detection is computationally expensive. The approaches described here can take as little as five minutes, or over an hour when applied to the whole video. Therefore, we've provided a file, detectionHistoryYOLO, containing the YOLO detections for each frame. This file contains a cell array where each cell contains the detections table returned for the corresponding video frame. 
+We encourage you to start with the provided YOLO detections. Then, return to this reading and try creating your detection function to see if you can implement the full tracking workflow.
+Create Your Own Detection Function (Optional)
+Below, we describe three approaches to detection and provide hints for each. For all three approaches, you will need to create a function that is called in the following way:
+Using YOLO
+detections = detectCars(frame, yoloDetector)
+Using optical flow, where of is your optical flow solver variable
+detections = detectCars(frame, of)  
+Using background subtraction
+detections = detectCars(frame, backgroundImg)
+The output must be a table that includes a variable named Centroids. For each approach, the additional 2nd input will increase the speed of your detections. For example, creating an optical flow solver once and passing it as input to your function is much more efficient than creating the solver every time you perform a detection.
+Recommended Workflow
+Start by extracting several frames from the video to work on your detection function. Once you are happy with the results:
+•	create a function that encapsulates the algorithm
+•	use the provided createDetectionHistory.mlx script to save a detectionHistory variable to use for tracking.
+Included with the course files for this module is a script named createDetectionHistory.mlx that creates a variable named detectionHistory and saves it. You use the detectionHistory variable when working on the tracking portion of the project to avoid re-running the detection every time you adjust parameters. This will allow you to iterate faster on the tracking portion of the project.
+Approaches to Detection
+1. YOLO
+Using YOLO with the full base network will detect the cars in the "MathWorksTraffic.mp4" video very well. However, this may take an hour to run on the entire video unless you have a supported GPU. The tiny YOLO network runs much faster and needs only a few minutes, but is less accurate. However, both are capable of getting the correct result!
+Hints 
+YOLO returns the bounding box for detected objects. Your detection function will need to calculate the centroid of the bounding box for tracking. Consider adding the bounding boxes and labels to your detections table as well.
+Remember that you can adjust the sensitivity of detections with YOLO using the "Threshold" Name-Value pair in the detect function. This is needed to successfully track using the tiny YOLO base network. 
+Refer back to Module 1 for examples of using YOLO.
+2. Optical Flow
+The goal is to count the moving cars and their detection. Therefore, optical flow might be a good approach. It will only detect moving cars, and you can determine the direction using the optical flow vectors. You already did much of this work in the Module 2 project!
+Remember to create the optical flow solver outside of any loops and pass it as input to your detectCars function:
+Hints
+If you apply optical flow similar to how you did in Module 2, you’ll likely end up with the mask for two cars touching, thus appearing as one object, as shown below.
+ 
+There are many ways to solve this, but here are a few hints we found useful:
+•	Detect cars as you did in the Module 2 project and adjust the tracking parameters to account for the time a track is missing due to the overlap.
+•	Use the Vx values from optical flow to create separate masks for left and right-moving cars.
+•	Use an ROI to create a mask that separates the left-moving and right-moving lanes. There will still be some overlap, but you can account for this by filtering on region size. Use the Image Segmenter App to help you draw an ROI.
+Don't worry if you can't get perfect detections. Move on to tracking and see if you can adjust the parameters to account for the imperfections. If not, then spend more time on improving detection.
+
+#### Final Project Part 2: Counting Cars
+Your goal is to count the moving cars on the road in front of MathWorks. You do not have to be exact, but you do need to be close to pass the quiz. 
+There are many correct solutions to this project. So, we recommend you start by using the provided detection history using the YOLO deep learning model to get a working tracking project. Then, take a step back, create your own detection function, and try to get tracking working.
+Step 1
+Navigate to the Module 4 folder and open the trackingCarsTemplate.mlx file. This file will run and track cars without any changes, but the results are not correct! The script is written to use the provided detectionHistoryYOLO file.
+You need to adjust the parameters in the "Tracking Parameters" section of the script. 
+Recommended Workflow
+•	Open the script and run it without modification. Look at the tracking results video that is created to help you understand the errors.
+•	Adjust tracking parameters and examine the results. Repeat until you are satisfied with the results.
+•	Take the quiz to confirm your count of total cars is correct
+Step 2
+Once you have a working solution, go back to Part 1 and create your own detection function. Are you able to write your own using YOLO and reproduce the results? Or, try optical flow. How did your tracking parameters change when trying a different approach?
+Final Project Part 3: Determining Track Direction
+This is a challenging bonus task, so don't worry if you struggle. Use the forums for help. You don't need to complete this task to pass the course.
+Like most tasks in this project, there are many different ways to solve the problem of determining the direction of your tracks. In this reading, we provide a few suggestions to get you started. This is a bonus task, so feel free to discuss and share ideas on the forums. 
+Kalman Filter State
+If you looked closely at the tracks table in this project, you may have noticed a new table variable: TrackedState. The TrackedState is a 4-element vector that contains the State property of the Kalman filter:
+[xLocation, xVelocity, yLocation, yVelocity]
+In the analysis function of your tracking script, modify the code to add TrackedState to the results table. Then, after running your tracking algorithm, you can use the analysis table to determine the direction of each confirmed track.
+The changes we made to the project template are detailed below as well as some suggestions if you use optical flow for detection. You do NOT need to make any updates to the main tracking functions to use the Kalman filter state
+Updates made to use the Kalman filter state
+A good way to find the changes we made to the code is to use the Find option and search the code for "TrackedState" and "PredictedState."
+ 
+This will help you quickly find the key differences between the project template code and the cell tracking example you saw previously. The key changes to each function are described below.
+Predict Function
+Previously, we used just the predicted location from the Kalman filter. However, the predict function can return the predicted state as a 2nd output, as shown below. Just like the predicted location, the predicted state will be updated if the track is assigned to a detection.
+1
+2
+3
+4
+5
+function tracks = predictTracks(tracks)
+    for idx = 1:height(tracks)
+        [tracks.PredictedLocation(idx,:),tracks.PredictedState(idx,:)] = predict(tracks.KalmanFilter{idx});
+    end
+end
+
+Update Function
+Like the predict function, the correct function can return a 2nd output with the corrected State of the Kalman Filter. Remember that you do this only for " visible tracks," meaning they were assigned to a detection.
+1
+2
+3
+4
+5
+6
+7
+% Update tracked locations and states using available detections 
+for idx = 1:height(tracks)
+    if tracks.Visible(idx)
+        [tracks.TrackedLocation(idx,:),tracks.TrackedState(idx,:)] = ...
+           correct(tracks.KalmanFilter{idx}, tracks.DetectedLocation(idx,:));
+    end
+end
+Recall that new tracks are created in the Update function as well. You need to initialize a variable to add to your new tracks table to store the track state: TrackedState = zeros(1,4);
+Adding Additional Data to Your Tracks (Optical Flow)
+Recall that you can add any information you have available from your detections to your tracks table. With optical flow, your detections table could include a direction or velocity, but you might also have bounding boxes. In fact, the provided YOLO detections include a bounding box and label but they are unused in the tracking template. Here's how to add additional information to your tracks.
+Change to the Update Function
+In the portion of the update function that initializes a new track, create a new variable with the information from your detection. For example, if your detection table includes variables named Direction and BoundingBox, add code to initialize them.
+% Create new tracks for unassigned detections 
+for idx = 1:height(detections)
+    if ~detections.assigned(idx)
+        ...
+        Direction = detections.Direction(idx);
+        BoundingBox = detections.BoundingBox(idx);
+        ...
+        newTrack = table(trackID, Direction, BoundingBox, Label, <other key variables>);
+Changes to the Assignment Function
+If a detection is assigned to a track, you use the data in the detection table to update the track information. The current project template does this for Centroids. The example code below updates the Direction and BoundingBox as well.
+    % Set detected flag and add detected location to detected tracks
+    if ~isempty(tracks)
+        tracks.Visible(:) = false; 
+        tracks.Visible(assignedIdxPairs(:,1)) = true; 
+        tracks.DetectedLocation(assignedIdxPairs(:,1),:) = detections.Centroids(assignedIdxPairs(:,2), :); 
+        tracks.Direction(assignedIdxPairs(:,1),:) = detections.Direction(assignedIdxPairs(:,2), :); 
+        tracks.BoundingBox(assignedIdxPairs(:,1),:) = detections.BoundingBox(assignedIdxPairs(:,2), :); 
+    end
+Share Your Tracking Results
+Great work completing the course. We'd love to see your final results. Post your final tracking video to a social media site and share the link here so we can see your results!
+Participation is optional
+Your Reply
+You may be wondering, 
+after you've developed your algorithms, what's next? 
+Maybe you want to run your code in the Cloud 
+or on specific devices like a smartphone. 
+The process of putting code into production is 
+called deployment or integration. 
+In this video, you'll learn 
+three options for deploying your code. 
+For each workflow, you'll see how MATLAB includes 
+tools to help you use your model in the real-world. 
+Imagine you're a researcher who wants to share 
+your results and collaborate with colleagues. 
+A great option for you is 
+simply sharing your MATLAB code. 
+First, you collect your code 
+files together in a MATLAB project. 
+Then use the source control tools in 
+MATLAB to upload your code to 
+a Cloud-based repository like GitHub. 
+This provides access to others and enables 
+you to track changes when working with collaborators. 
+If you're working with people using 
+other coding languages like Python, don't worry. 
+MATLAB provides flexible two-way integration 
+with several languages. 
+For example, you can call 
+Python code from inside MATLAB, 
+and your colleagues can use 
+MATLAB engine APIs to use 
+your MATLAB code within their environment. 
+Now, imagine you're an engineer that needs to provide 
+access to others in 
+your organization with an easy to use interface. 
+A good option is to create a web application. 
+First, you would design and create an app in MATLAB. 
+Your app can include interactive components, 
+making it easy for others to adjust 
+parameters while your code runs behind the scenes. 
+Then you'd host the app on 
+a web server so others can use it from their browsers. 
+Finally, imagine you're working on a self-driving car. 
+You needed to get your MATLAB code 
+onto the hardware devices embedded in the car. 
+How can you deploy your code to 
+hardware that doesn't run MATLAB? 
+The answer is to convert your code to 
+another language that can run on the device. 
+If that sounds intimidating and time-consuming, 
+it is if you do it manually. 
+But with MATLAB, the task is much easier. 
+MATLAB can automatically generate code like C, 
+C++, HDL, and even code to run on GPUs. 
+Code generation saves engineers huge amounts of time by 
+letting them rapidly prototype and 
+test algorithms on new hardware systems. 
+You've now seen three ways to put your algorithm to work. 
+As you develop your code, 
+remember that MATLAB includes tools to help 
+you deploy it in a variety of ways.
+Nice job. 
+Great work. 
+Well done. 
+Congratulations. 
+By completing this specialization, 
+you've gained the skills necessary to succeed in a world 
+where images and videos are increasingly important. 
+Companies are working on 
+a wide range of computer vision applications. 
+From driver assistance systems to 
+smartphone apps and smart appliances. 
+The ability to use and make decisions from 
+images is essential for many careers. 
+You started with learning how to 
+detect and extract features from 
+images using some of the most widely used algorithms. 
+You use these features to estimate 
+geometric transformations and perform 
+image registration and stitching. 
+With these skills, you can accurately compare and analyze 
+images taken at different times 
+or from different perspectives. 
+Across industries, companies are 
+looking for people with machine learning experience. 
+In course 2, 
+you trained both image classification 
+and object detection models. 
+You then evaluated these models using 
+a variety of metrics and because 
+not all errors are equal you adjusted 
+cost matrices to reflect 
+the importance of specific classes. 
+Importantly, you now have 
+a workflow to apply to any machine-learning problem. 
+Tracking objects and detecting 
+motion are difficult tasks that are 
+required for applications as varied as 
+microbiology and autonomous systems. 
+To track an object, you first have to detect it. 
+You now have a variety of 
+approaches such as image segmentation, 
+optical flow, training your own object detector, 
+or using pre-trained models like YOLO. 
+By incorporating tracking, you can identify and follow 
+individual objects even when there is 
+detection noise or when objects move out of view. 
+You're now better prepared to solve 
+challenging problems in computer vision. 
+Good luck.
+
