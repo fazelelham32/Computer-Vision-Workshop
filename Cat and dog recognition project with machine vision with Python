@@ -1,0 +1,868 @@
+# Computer-Vision-Workshop
+## Cat and dog recognition project with machine vision with Python
+Open and save photos in OpenCV
+Here we explain some basic commands and a set of terms for using Python in OpenCV. We will learn about three basic functions in OpenCV, imread, imshow, and imwrite.
+#comments in Python are given by # symbols
+Enter opencv in Python with the following command.
+import cv2
+Load an image by specifying the image path using 'read'.
+image = cv2.imread('input.jpg')
+Now that image is loaded and stored in Python as a variable we named as image.
+Now, to display our image variable, we use 'show', and the first parameter for the imshow function is the title shown in the window below, and it must be entered in ('') to display the name as a string.
+cv2.imshow('hello world', image)
+waitkey allows us to enter data by emptying the image window when it's open, just waiting for any key to be pressed before continuing by inserting numbers (except zero). We can specify a delay for how long you keep the window open (time in milliseconds here).
+cv2.waitKey()
+'destroyAllWindows' closes all open windows, failing to do so will crash your program.
+cv2.destroyAllWindows()
+
+Now let's take a look at how images are stored in an open CV. For this, we use numpy. NumPy is a Python library for supporting large multidimensional arrays and matrices.
+import cv2
+#importing numpy
+import numpy as np
+image=cv2.imread('input.jpg')
+cv2.imshow('hello_world', image)
+#shape function is very useful when we are looking at the dimensions of an array, it returns a tuple that gives a dimension of an image
+print(image.shape)
+cv2.waitKey()
+cv2.destroyAllWindows()
+console output - (183, 275, 3), the two dimensions of the image are 183 pixels long and 275 pixels wide, and 3 means that there are three other components (R, G, B), that make up this image ( This indicates that color images are stored in 3D arrays).
+Now let's print each dimension of the image by adding the following lines of code.
+print('Height of image:',(image.shape[0],'pixels'))
+print('Width of image:',(image.shape[1],'pixels'))
+console output – image length (183, 'pixels')
+image width (275, 'pixels')
+Save the edited image in OpenCV
+We use 'write' to specify the name and image to be saved.
+cv2.imwrite('output.jpg',image)
+cv2.imwrite('output.png',image)
+The first argument is the name of the file we want to save, { to read or save the file, we use (‘ ‘) to represent it as a string } and the second argument is the name of the file.
+OpenCv allows us to save the image in different formats.
+Black and white image in OpenCV
+Greyscaling is the process by which a full-color image is converted to shades of gray (black and white).
+In OpenCV, many functions turn the images into black and white before processing to simplify the image, it almost acts as a noise reduction and increases the processing time because there is less information in the image (black and white images in two two-dimensional arrangements are saved).
+import cv2
+# load our input image
+image=cv2.imread('input.jpg')
+cv2.imshow('original', image)
+cv2.waitKey()
+#we use cat color, to convert to grayscale
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+cv2.imshow('grayscale', gray_image)
+cv2.waitKey()
+cv2.destroyALLWindows()
+
+An easier way to convert a full-color image to black and white is to just add Argument0 in the image function next to the image name
+import cv2
+gray_image=cv2.imread('input.jpg',0)
+cv2.imshow('grayscale',gray_image)
+cv2.waitKey()
+cv2.destroyAllWindows()
+Now let's see the dimensions of each image with the shape function.
+import cv2
+import numpy as np
+image=cv2.imread('input.jpg')
+print(image.shape)
+cv2.imshow('original', image)
+cv2.waitKey()
+gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+cv2.imshow('grayscale', gray_image)
+print(gray_image.shape)
+cv2.waitKey()
+cv2.destroyALLWindows()
+Console output:
+• (183, 275, 3) – for color image
+• (183, 275) – for black and white image
+Hence, it clearly shows that color images are represented by three-dimensional arrays, while black-and-white images are represented by two-dimensional arrays.
+Color spaces of images
+Color spaces are how images are stored. RGB, HSV, and CMYK are different color spaces that are simple ways to represent color.
+• RGB – red, green and blue
+• HSV – hue, saturation and value.
+• And CMYK is commonly used in inkjet printers.
+RGB or BGR color space
+OpenCV's default color space is RGB color. RGB is an additive color model that creates colors by combining blue, green, and red colors of varying intensity/brightness. In OpenCV, we use 8-bit color space.
+• Red (0-255)
+• Blue (0-255)
+• Green (0-255)
+
+However, OpenCV stores color in BGR format.
+Fun Fact: – We use BGR order in computers because of how 32-bit integers are stored in memory, but it is still stored as RGB. An integer representing a color eg: – 0X00BBGGRR is stored as 0XRRGGBB.
+HSV color space
+HSV (Hue, Saturation, and Value/Lightness) is a color space that attempts to represent colors that humans perceive. Stores color information as a cylindrical representation of RGB color points.
+• Color – color value (0-179)
+• Saturation - color fluctuation (0-255)
+• Value – brightness or intensity (0-255)
+The HSV color space format is useful in color segmentation. In RGB, it is not easy to filter a specific color, but HSV makes it much easier to set color ranges to filter specific colors as we perceive them.
+Hue represents color in HSV, the color value ranges from 0 – 180 and not 360, so it does not complete the full cycle and therefore maps differently than the standard.
+Color range filters:
+• Red – (15-165)
+• Green – (45-75)
+• Blue – (90-120)
+As we know images are stored in RGB (Red, Green, and Blue) color space and OpenCV displays the same, but the first thing to remember about OpenCV's RGB format is that it is BGR and we can Let's recognize it by looking at the shape of the image
+import cv2
+import numpy as np
+image = cv2.imread('input.jpg')
+#B, G, R-value for the first 0,0 pixel
+B, G, R=image[0,0]
+print(B,G,R)
+print(image.shape)
+#now if we apply this to a grayscale image
+gray_img=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+print(gray_img.shape)
+#gray_image pixel value for 10.50 pixels
+print(gray_img[10,50])
+Console output: print(B,G,R) - 6 11 10
+print(image. shape) - (183, 275, 3)
+  print(gray_img.shape) - (183, 275)
+print(gray_img[10,50]) - 69
+Now there are only two dimensions in black and white image because color image is stored in three dimensions, the third dimension is (R, G, B) while in black and white there are only two dimensions, since (B, R, G) and we get only one value for a particular pixel position, while we got three values in the color image.
+Suggested article: What is FPGA? Introduction of FPGA programming tool
+Another useful color space is HSV
+import cv2
+image=cv2.imread('input.jpg')
+hsv_image=cv2.cvtColor(image,cv2.COLOR_BGR2HSV)
+cv2.imshow('HSV image',hsv_image)
+cv2.imshow('Hue channel',hsv_image[:,:,0])
+cv2.imshow('saturation channel',hsv_image[:,:,1])
+cv2.imshow('value channel',hsv_image[:,:,2])
+cv2.waitKey()
+cv2.destroyAllWindows()
+
+After running the code, you can see four images, which are three images from separate channels and one combined HSV image.
+The Hue channel image is quite dark because its value only ranges from 0 to 180.
+Also, note that the show function will show you an RGB or BGR image, but the HSV conversion overlaps.
+Also, the value channel will look like a black-and-white image due to its brightness.
+Explore the individual components of an RGB image
+import cv2
+image=cv2.imread('input.jpg')
+#opencv's split function splits the image in each color index
+B, G, R=cv2.split(image)
+cv2.imshow("Red", R)
+cv2.imshow("Green",G)
+cv2.imshow("Blue", B)
+#making the original image by merging the individual color components
+merged=cv2.merge([B,G,R])
+cv2.imshow("merged", merged)
+#amplifying the blue color
+merged=cv2.merge([B+100,G,R])
+cv2.imshow("merged with blue amplify",merged)
+#representing the shape of individual color components.
+# The output would be only two dimensions which would be height and width, since the third element of the RGB component is individually represented
+print(B.shape)
+print(R.shape)
+print(G.shape)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+Console output:
+                               (183, 275)
+                               (183, 275)
+                               (183, 275)
+Convert photo to individual RGB component
+In the code below we have created a matrix of zeros with the dimensions of the H×W image, zero returns an array filled with zeros, but with the same dimensions.
+The shape function is very useful when we are looking at image dimensions, here we have cut this shape function. Therefore, shape[:2] moves everything to the specified points, that is, to the second specified point, which is the third representation of the RGB component of the image in terms of height and width, and we do not need it here.
+import cv2
+import numpy as np
+image = cv2.imread('input.jpg')
+B,G,R = cv2.split(image)
+zeros=np.zeros(image.shape[:2],dtype="uint8")
+cv2.imshow("RED",cv2.merge([zeros,zeros,R]))
+cv2.imshow("Green",cv2.merge([zeros,G,zeros]))
+cv2.imshow("Blue",cv2.merge([B,zeros,zeros]))
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+Image histogram display with OpenCV
+Image histogram display is a method of visualizing image components.
+The following code allows you to analyze the image through the color histogram of the combined and separate color components.
+import cv2
+import numpy as np
+#we need to import matplotlib to create histogram plots
+import matplotlib.pyplot as plt
+image=cv2.imread('input.jpg')
+histogram=cv2.calcHist([image],[0],None,[256],[0,256])
+#we plot a histogram, ravel() flattens our image array
+plt.hist(image.ravel(),256,[0,256])
+plt.show()
+#viewing separate color channels
+color=('be,' go, 'r')
+#we know to separate the colors and plot each in the histogram
+for i, col in enumerate (color):
+     histogram2=cv2.calcHist([image],[i],None,[256],[0,256])
+     plt.plot(histogram2,color=col)
+     plt.Clim([0,256])
+     plt.show()
+Let's explore the calcHist function with its parameters.
+cv2.calcHist(images, channels, mask, his size, ranges)
+Images: The source image is unit 8 or float 32. It must be given in square brackets, i.e. “[img]”, which also indicates its second-level array since an image for OpenCV is data in array form.
+Channels: This is also given in square brackets. This is the channel index for which we calculate the histogram. For example, if the input image is black and white, its value is [0], for color images, you can pass [0], [1], or [2] to calculate the blue, green, and red channel histogram respectively.
+Mask: Mask image. To find the full image histogram, it is given as "none". But if you want to find the histogram of a certain part of the image, you need to create a mask image for it and give it as a mask.
+Histsize: This represents our BIN number. For the full scale we are going through, it should be given in square brackets [256].
+Ranges: Our range is normally [0.256].
+Drawing images and shapes using OpenCV
+Below are some examples of drawing lines, rectangles, polygons, circles, etc. in OpenCV.
+import cv2
+import numpy as np
+#creating a black square
+image=np.zeros((512,512,3),np.uint8)
+#we can also create this in black and white, however there would not be any changes
+image_bw=np.zeros((512,512),np.uint8)
+cv2.imshow("black rectangle(color)",image)
+cv2.imshow("black rectangle(B&W)",image_bw)
+
+Line drawing in Open CV with Python
+#create a line over the black square
+#cv2.line(image, starting coordinates, ending coordinates, color, thickness)
+#drawing a diagonal line of thickness 5 pixels
+image=np.zeros((512,512,3),np.uint8)
+cv2.line(image,(0,0),(511,511),(255,127,0),5)
+cv2.imshow("blue line",image)
+
+Draw a rectangle in Open CV with Python
+#create a rectangle over a black square
+#cv2.rectangle(image, starting coordinates, ending coordinates, color, thickness)
+#drawing a rectangle of thickness 5 pixels
+image=np.zeros((512,512,3),np.uint8)
+cv2.rectangle(image,(30,50),(100,150),(255,127,0),5)
+cv2.imshow("rectangle", image)
+
+
+Drawing a circle in Open CV with Python
+#creating a circle over a black square
+#cv2.circle(image,center,radius,color,fill)
+image=np.zeros((512,512,3),np.uint8)
+cv2.circle(image,(100,100),(50),(255,127,0),-1)
+cv2.imshow("circle", image)
+
+Polygon drawing in Open CV with Python
+#creating a polygon
+image=np.zeros((512,512,3),np.uint8)
+# let's define four points
+pts=np.array([[10,50], [400,60], [30,89], [90,68]], np.int32)
+# Let now reshape our points in the form required by Polylines
+pts=pts.reshape((-1,1,2))
+cv2.polylines(image, [pts], True, (0,255,255), 3)
+cv2.imshow("polygon", image)
+
+Typing text in Open CV with Python
+#putting text using opencv
+#cv2.putText(image,'text to display,bottom left starting point, font,font size,color, thickness)
+image=np.zeros((512,512,3),np.uint8)
+cv2.putText(image,"hello world", (75,290), cv2.FONT_HERSHEY_COMPLEX,2,(100,170,0),3)
+cv2.imshow("hello world",image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+Computer vision and OpenCV are very broad topics, but this guide will be a good starting point for learning OpenCV and image processing.
+Technology
+The most complete training of Processing software (zero to hundred)
+Hello. We have prepared the most complete training of Processing software (zero to hundred).
+Learning how to work with Processing software
+Processing is an open-source programming language that was created for the design of electronic arts, new media arts, and visual design, and its purpose is to teach the principles of computer programming to non-professional programmers in the form of visual concepts, and currently All over the world, tens of thousands of students, artists, designers, researchers, and entertainment game designers use this powerful software for learning, prototyping and making products. This software is known as Processing in Iran. Among the features of this software, the following can be mentioned:
+• Free download and Open source
+Can be installed in different operating systems (GNU/Linux, Mac OS X, Windows, Android, ARM)
+• Simple and attractive programming environment
+• Two-dimensional, three-dimensional interactive programs with the possibility of PDF output
+• More than 100 application libraries available in different fields
+Processing is based on the Java programming language, but it has a simpler language with a graphical environment. Processing programming language is so simple and powerful that you can do great things with minimal coding that can be used in many engineering projects.
+See some projects with Processing:
+Arduino training course, ESP32 training course, STM32 training course, Electronics training course
+Board Pico training course, Raspberry Pi training course, Altium Designer training course, do you want a course discount?
+AVR training course, Proteus training course, Internet of Things training course, board and electronic parts store
+• Face recognition robot and face tracker with Arduino and Processing
+• Building a ball-tracking robot with Raspberry Pi and Processing
+• Building an ultrasonic radar detector with Arduino and Android
+•	And …
+Download Processing software
+To download the processing software, proceed from the opposite link: download the latest version of the processing software
+After downloading the software, unzip it. Then install two versions of Processing-java.exe and processing.exe.
+After installing Processing-java.exe and Processing.exe, the processing software will be installed. Open the software.
+Now the Processing software is installed. We will examine the program environment.
+Teaching the Processing software environment
+The processing program environment includes a text editor, compiler, and display window. These facilities allow the creation of software within a set of carefully designed constraints.
+Overview of the processing environment
+The Processing Development Environment (PDE) makes it easy to write Processing programs. Programs are written in the editor and their execution starts by pressing the Run button. In Processing, a computer program is called a Sketch. Sketches are saved in the Sketchbook folder on your computer.
+Sketches can draw 2D and 3D images. The default mode is for drawing 2D images. The section providing 3D drawing in the program includes camera control and lighting. P2D renderer is a fast but less accurate renderer for drawing 2D images. If your computer has an OpenGL-compatible graphics card, the speed of both P2D and P3D receivers will increase.
+Suggested article: Creating a function in MATLAB (calculating the volume of a rectangular cube)
+Processing capabilities are enhanced with its libraries and tools. Libraries make programs run beyond the Processing core. Hundreds of libraries have been provided by the Processing community, and by adding them to your program, you can add new features such as playing sounds, performing machine vision, and working with advanced 3D designs. The expansion of tools in the Processing environment has made it easier to create programs by providing user interfaces such as color selection.
+Processing has different programming modes that make it possible to run programs on different platforms. The default mode of the program is Java. Other modes of the program can be installed by selecting the Add Mode option from the upper right-corner menu.
+Processing Software Development Environment (PDE)
+The program environment includes a simple text editor for writing code, a message space, a text console, several tabs for managing files, a toolbar with buttons for common actions, and a series of menus. Menu options change from one mode to another. The default mode here is Java.
+As mentioned before, Sketches are written in the text editor section, in this section you can use features such as cut, paste, search, and replace. The message area displays errors that occur during execution and storage. The console section displays the output of the program's print() and println() functions. (Note that the console does not work for high-speed output and real-time programs).
+The buttons on the toolbar can stop or run programs:
+• Run: Runs the same Sketch. In Java mode, it compiles the code and opens a new display window.
+Stop: Stops a running Sketch.
+The program has six menu items, which are: File, Edit, Sketch, Debug, Tools, and Help, which we will review below:
+File menu in Processing software
+Creates a new sketch in a new window with the name of the current date and the format "sketch_YYMMDDa".
+• Open…: Open a program in a new window
+• Open Recent: selects one from the list of recently closed programs and opens it.
+• Sketchbook…: Opens a new page to show the list of programs available in this section.
+• Examples...: Opens a new window to display the list of examples.
+• Close: Close the Sketch in front of the window. If this is the last program you open, you will be asked if you want to cancel. To avoid the notification, use Quit instead of Close when you want to quit the program.
+• Save: saves the open program in its current state.
+• Save as…: Saves the current open program with a different name and does not replace the previous version.
+• Export: Exports a Java program as an executable file and opens the folder containing the exported files.
+• Page setup: define page settings for printing.
+• Print...: The code inside the text editor prints.
+• Preferences: changes some processing methods.
+• Quit: Exits the Processing environment and closes all its windows.
+Edit menu in Processing software
+and...: text string in the file opened in the Mat editor
+
+• Undo: reverses the last command or input typed. Cancel the Undo command by selecting the Edit » Redo option.
+• Redo: Returns the action of the last Undo command. This option is only available if there is already an Undo action.
+• Cut: Deletes the selected text and copies it to the clipboard (an off-screen text buffer).
+• Copy: copies the selected text to the clipboard.
+• Copy as HTML: Formats the code as HTML in the same way it appears in the Processing environment and copies it to the clipboard so it can be pasted elsewhere.
+• Paste: Place the contents of the clipboard at the cursor position and replace any selected text.
+• Select All: Select all the text in the file currently open in the text editor.
+• Auto Format: This option tries to convert the code format into a human-readable format. This option used to be called Beautify.
+• Comment/Uncomment: Considers the selected text as a description in the program text. If the selected text is a description, it will be disabled.
+• Increase Indent: Moves the selected line in the program forward by the size of two space lines, in other words, creates an indentation by the size of two space lines.
+• Decrease Indent: If the text is indented, it removes two spaces from the indented state.
+• Find…: Finds the text string in the file opened in the text editor and gives the option to replace it with different text.
+• Find Next: Finds the next occurrence of a text string in the file opened in the text editor.
+• Find Previous: Finds the previous occurrence of the text string in the file opened in the text editor.
+• Use Selection For Find: Sets the currently selected text as the search item.
+Sketch menu in processing software
+• Run: executes the code (compiles the code, opens the display window, and executes check inside the program)
+• Present: Runs the code in the center of the screen with a full-color background. To exit the presentation, click on the "stop" button or press the Escape key. Change the background color in preferences.
+• Tweak: Runs the code so that some variables and color values can be changed during execution. In this method, it must be saved before running the program.
+• Stop: If the code is running, its execution is stopped. Programs written without using the Draw() function will automatically stop after drawing.
+• Import Library: Adds instructions to use the required libraries on top of the codes. For example, by selecting Import Library » pdf command "import processing.pdf.*;" It is added at the top of the file. These commands are necessary to use the libraries. By selecting Add Libraries... the library management section is opened and you can install new libraries.
+• Show Sketch Folder: Opens the current Sketch folder.
+• Add File…: Opens a file browser window. Select an image, font, or other file to add to the program's data folder.
+Debug menu in processing software
+
+• Enable Debugger: This option enables debugging. Note that in this case, the Run button will change to Debug. New Continue and Step buttons appear along with a separate window for viewing variable values
+
+• Continue: advances the code to the breakpoint.
+• Step: advances the code simultaneously. (Note that as soon as the code reaches the end of the current function call, debugging will return to "continue".)
+• Step Into Advanced debugging into the function call area. This action only works for user-defined functions in the program.
+• Step Out: Advances debugging outside the function call area. This action only works for user-defined functions in the program.
+• Toggle Breakpoint: This option adds or removes a breakpoint. By adding a breakpoint, the line number is replaced by the <> symbol.
+Tools menu in the processing software
+
+• Create Font...: Converts fonts to Processing font format and adds them to the current sketch. Opens a dialog box that provides options for setting the font, such as its size, whether it's anti-sensitive (smooth), and which characters to create. The amount of memory required for the font with the selected size and the number of selected characters is determined through the "Characters" list. Processing fonts are textures, so larger fonts require more image data. You can also create fonts in code using the createFont() function.
+• Color Selector…: Interface for selecting colors. HSL, RGB, and Hex values are shown for each color. The Hex value can be copied to the clipboard with the Copy button.
+• Archive Sketch: archives a copy of the current sketch in .zip format. The archive is placed in the same folder as the program.
+• Movie Maker: Creates a QuickTime movie from a sequence of images. Options include setting size, frame rate, and compression, as well as an audio file.
+• Add Tool…: Opens the tool manager to browse and install new tools.
+Help menu in processing software
+
+• Environment: Opens the Processing development environment reference in the default web browser.
+• Reference: Opens the reference in the default web browser, which includes references to the language, programming environment, and core libraries.
+• Find in Reference: Select the Processing language element in the text editor and select Find to open that page in the default web browser.
+• Libraries Reference: Select from the list to open the compatible libraries reference.
+• Tools Reference: Select from the list to open the reference for compatible tools.
+• Getting Started: Opens the Getting Started online tutorial in the default browser.
+• Troubleshooting: Opens the online troubleshooting wiki page in the default browser.
+• Frequently Asked Questions: Opens the online question and answer wiki page in the default browser.
+• The Processing Foundation: Opens the Foundation's website in the default browser.
+• Visit Processing.org: Opens the Processing website in the default browser.
+Teaching ESP32 programming with Micropython
+
+MicroPython is a lightweight version of the Python programming language developed for programming microcontrollers, SOCs, and other embedded system devices. MicroPython was created to enable developers to take advantage of the "easy to learn and use" nature of Python to develop embedded systems. Since Python is now the primary introductory language in most schools and is one of the most popular and widely used programming languages around the world, through Micro Python, a large number of Python users can program for microcontrollers without the need to have C Micro Python is a smaller implementation of Python 3 and therefore compatible with Python 3 commands.
+While MicroPython is not yet at the same level of popularity as C and C++ for embedded system development, its popularity has increased with the growing number of supported microcontrollers, IDEs, and development boards. For today's tutorial, we will look at one of these boards for which various codes can be written using MicroPython. We will be looking to develop code for the ESP32 using MicroPython.
+Arduino or Micropython?
+One of the most proven and easiest ways to program the ESP32 is to use the Arduino IDE. C and C++ have been popular languages for developing embedded systems for decades, and the Arduino version of the language makes it even easier, making it popular among developers and hobbyists due to the ease of writing code. Additionally, Arduino has one of the largest communities in the world with new libraries, software fixes, new board support, and more. All this makes Arduino a powerful tool for programming embedded system boards.
+One of the good features of Micro Python is that you can run the code on the board without uploading the code and increase the speed of your operation. MicroPython, on the other hand, is relatively new. Its user community is growing and although it supports various libraries and boards, its power cannot be compared to Arduino. MicroPython is a pure version of Python, which is one of the most popular programming languages in the world, and thus, any problem that cannot be solved by the MicroPython community can get help from the Python community.
+Arduino training course, ESP32 training course, STM32 training course, Electronics training course
+Board Pico training course, Raspberry Pi training course, Altium Designer training course, do you want a course discount?
+AVR training course, Proteus training course, Internet of Things training course, board and electronic parts store
+Now, regardless of which one is better, let's run the flashing LED project with MicroPython for ESP32.
+Micropython code execution circuit for ESP32
+The Schematic of using ESP32 with MicroPython to blink LED is simple. Connect the parts as shown in the schematic below.
+Suggested article: Building a low-power BLE Bluetooth server with ESP32 (+ display the battery level)
+
+ 
+required pieces
+To make the flashing LED project, we need the following components.
+• DOIT ESP32 DevKit version 1
+• LEDs
+• 100 Ohm resistance
+• Jumper wires
+• Board
+
+You can use any of the other ESP32-based boards instead of the DOIT ESP32 DevKit V1 and you can choose to work with the on-board LED or with an external LED.
+The next section contains some setups and setups that we need to do to easily program the ESP32 using MicroPython.
+Flash ESP32 with MicroPython
+The first thing we need to do is to flash our ESP32 with MicroPython firmware. This process is similar to how to flash ESP-12e-based boards with NodeMCU firmware.
+Step 1: We start by downloading the latest MicroPython operating system bin file from the MicroPython download page. Search for ESP32 in the given link, you will see different items that you can choose according to the board you have. Then download the latest version marked with [latest].
+Step 2: With the download done, the next step is to flash your board with the firmware. To do this, you'll need to put your board into bootloader mode and then use a tool to flash the operating system from your PC onto the board.
+The exact method of putting the board into bootloader mode depends on the type of board you are using. Most boards have a USB connector, a USB serial converter, and DTR and RTS pins that are wired specially, so it's easy to install an operating system on them. But if your board does not have a USB connector, you must press the boot button or connect the IO0 pin to GND and turn the board on and off.
+For the DOIT DevKit board, you need to press the boot button when you want to flash the board. To flash the ESP32 with the MicroPython operating system, we will use esptool.py as our copy tool.
+To work with esptool.py, you must have Python 2.7, Python 3.4, or newer installed on your computer. We recommend using the latest version of Python 3, which you can download from the Python website.
+With Python 3 installed, you can go to the official esp repository and download the latest stable version of esptool.py or open a terminal window to install it via pip.
+To install via pip, open a terminal window and run the following command:
+pip install esptool
+If the above doesn't work, change it to one of the commands below and try again.
+pip3 install esptool
+python -m pip install esptool
+pip3 install esptool worked for me. After installation, your terminal should look like the image below.
+ 
+Now you need to launch esptool by entering the command esptool.py in the terminal.
+esptool.py
+If your installation went well, you should see a lot of messages like the one below.
+ 
+Step 3: For best results, it is recommended to first wipe the entire flash of your device before installing the new MicroPython firmware. To do this, hold down the boot/flash button on your ESP32 and run the following command.
+esptool.py --chip esp32 erase_flash
+You can remove your hand as soon as the process starts. ESPtool will automatically detect the port your ESP32 is on.
+You should now see messages similar to this upon completion.
+
+Step 4: Finished wiping the flash memory, now you can flash the board with the new firmware by running the command.
+esptool.py --chip esp32 --port <board port> write_flash -z 0x1000 <bin file location>
+Fill in the slots in the operating system with your serial port and the location of the bin file we downloaded earlier. To make things easier, you can change the directory to the same folder as the bin file, so you only need to enter the filename as the location. for example:
+esptool.py --chip esp8266 --port COM4 write_flash --flash_mode dio --flash_size detect 0x0 esp32-up-fix.bin
+By doing this, you should see hints that your board has been successfully flashed with MicroPython Firmware and you should be able to program the board using the MicroPython IDEs.
+Install Thonny IDE for ESP32
+After installing the operating system, you need to install a Python IDE. IDEs provide an easy way to develop and manage your project code. There are many Python IDEs with MicroPython support, and you can choose any of them for your project. For today's tutorial, we'll be using Thonny. Thonny is very popular among programmers and has become even more popular because it is one of the Python development environments used in Raspberry Pi's Raspbian operating system. After downloading Thonny, install it.
+ 
+To program embedded devices with Thorny, the interpreter must be set to MicroPython. You can do this by going to Tools > Options and selecting an interpreter. You should see a window similar to the image below. Select MicroPython to run the code and select the port your board is connected to.
+ 
+With this done, you are now ready to program your board using the IDE.
+Flashing LED program with Micropython
+Blink is to the hardware world what Hello World is to the software world. This project is not complex enough to show you how powerful MicroPython is, but I believe it is good enough as the first MicroPython project.
+MicroPython does not come with the full Python libraries or modules commonly referred to in Python, but it does come with additional libraries that allow it to interact with low-level hardware to control GPIOs and interact with interfaces. One of these modules is the machine module. The functions in the machine module allow direct and unlimited access and control of hardware blocks such as CPU, timers, buses, etc. in an embedded system. This is a module that you will surely use in all your MicroPython projects.
+
+ 
+Step 4: Finished wiping the flash memory, now you can flash the board with the new firmware by running the command.
+esptool.py --chip esp32 --port <board port> write_flash -z 0x1000 <bin file location>
+Fill in the slots in the operating system with your serial port and the location of the bin file we downloaded earlier. To make things easier, you can change the directory to the same folder as the bin file, so you only need to enter the filename as the location. for example:
+esptool.py --chip esp8266 --port COM4 write_flash --flash_mode dio --flash_size detect 0x0 esp32-up-fix.bin
+By doing this, you should see hints that your board has been successfully flashed with MicroPython Firmware and you should be able to program the board using the MicroPython IDEs.
+Install Thonny IDE for ESP32
+After installing the operating system, you need to install a Python IDE. IDEs provide an easy way to develop and manage your project code. There are many Python IDEs with MicroPython support, and you can choose any of them for your project. For today's tutorial, we'll be using Thonny. Thonny is very popular among programmers and has become even more popular because it is one of the Python development environments used in Raspberry Pi's Raspbian operating system. After downloading Thonny, install it.
+ 
+To program embedded devices with Thorny, the interpreter must be set to MicroPython. You can do this by going to Tools > Options and selecting an interpreter. You should see a window similar to the image below. Select MicroPython to run the code and select the port your board is connected to.
+ 
+With this done, you are now ready to program your board using the IDE.
+Flashing LED program with Micropython
+Blink is to the hardware world what Hello World is to the software world. This project is not complex enough to show you how powerful MicroPython is, but I believe it is good enough as the first MicroPython project.
+MicroPython does not come with the full Python libraries or modules commonly referred to in Python, but it does come with additional libraries that allow it to interact with low-level hardware to control GPIOs and interact with interfaces. One of these modules is the machine module. The functions in the machine module allow direct and unlimited access and control of hardware blocks such as CPU, timers, buses, etc. in an embedded system. This is a module that you will surely use in all your MicroPython projects.
+
+Waterproof ultrasonic sensor with Arduino (submarine SR04T)
+Adding cameras and vision algorithms to projects and robots is very interesting, but sometimes it increases the cost. For example, you can use ultrasonic sensors instead of cameras and machine learning to detect obstacles. Ultrasonic sensors are not only accurate, but some of them work underwater and waterproof. These sensors are used in harsh weather conditions. These sensors offer a variety of features and easily outperform the standard HC-SR04 sensor in terms of performance.
+The following article will show you how to set up the SR04T waterproof ultrasonic sensor with an Arduino Uno. I suggest you see the Arduino distance meter article.
+
+SR04T ultrasonic sensor module
+The SR04T/SR04M module has 6 pins RST, 5V, RX, TX, GND, and SWIM. Of these, 4 are used and SWIM and RST remain unused. The function of the pins is:
+ 
+Arduino training course, ESP32 training course, STM32 training course, Electronics training course
+Board Pico training course, Raspberry Pi training course, Altium Designer training course, do you want a course discount?
+AVR training course, Proteus training course, Internet of Things training course, board and electronic parts store
+• 5V is the input pin of the module. We supply 5V supply voltage to this base.
+• RX This acts as the Trigger pin for the module. To start data sampling, we send a 10 µs pulse on this pin.
+• TX This is the output pin of the module. After the trigger signal is given to the module, the module sends the signal and after hitting the object and returning it, this base changes its status.
+• GND This is the ground pin of the module and is used to complete the module power supply circuit as well as the GND reference for signals.
+• SWIM without use
+• Unused RST
+How does the waterproof ultrasonic module work?
+Ultrasonic sensors work by emitting very high-frequency sound waves. These sensors send the sound wave and then wait for the sound to be reflected to the sensor. Then, by calculating the time traveled, they calculate the distance. A representation of the process can be as follows:
+ 
+In the SR04T/SR04M waterproof ultrasonic sensor modules, the module sends a 40 kHz pulse to the ultrasonic unit and then sends the echo return signal to a set of operational amplifiers to amplify the received signal. Then this received signal is processed by a processor.
+Knowing the time taken by the sensor to receive the echo signal as "T", we can calculate the distance between the sensor and the obstacle using the following formula:
+  Waterproof ultrasonic sensor circuit with Arduino
+The following connections are made between the Arduino UNO and the sensor:
+
+  Waterproof ultrasonic module Arduino code
+As mentioned earlier, we need to send 10uS pulses on the TRIGGER pin and measure the duration of the received pulse on the ECHO pin. To achieve this feature, we simply use the "NewPing" library, which can be installed in the Library Manager section as follows.
+ 
+Required library installation:
+1. Open the Tools menu in the menu bar and select Library Manager.
+2. When Library Manager opens, search for the “NewPing” library in the search bar and click Install to install the latest version of the library.
+To use the NewPing library, we initialize pins according to our connections and initialize a NewPing object. We also initialize variables to store the values read from the sensor. Notice that we have initialized three variables.
+#include <NewPing.h>
+#define TRIGGER_PIN 3
+#define ECHO_PIN 2
+#define MAX_DISTANCE 400
+NewPing sonar(TRIGGER_PIN, ECHO_PIN, MAX_DISTANCE);
+float tempval1;
+float tempval2;
+int financial;
+Setup function
+If you have any questions about this article, ask in the comments section
+In the void Setup() function, we simply initialize the serial port with a baud rate of 57600.
+void setup() {
+   Serial.begin(57600);
+}
+Loop function
+void loop() {
+   delay(20);
+   Serial.print("Ping: ");
+   int iterations = 5;
+   tempval1=((sonar.ping_median(iterations) / 2) * 0.0343);
+   if(tempval1-tempval2>60 || tempval1-tempval2<-60)
+   {
+     tempval2=(tempval1*0.02 )+ (tempval2*0.98);
+     }
+   otherwise
+   {
+   tempval2=(tempval1*0.4 )+ (tempval2*0.6);
+   }
+   finalval=tempval2;
+   Serial.print(finalval);
+   Serial.println("cm");
+}
+
+This function is the most important part of the code. We use the function “sonar.ping_median()” to take 5 times the values and then find the median of those values, this gives us a more accurate and reliable value.
+This function gives us the time value, to get the distance we simply multiply it by 0.0343 (the speed of sound in cm/μs) and then get half the distance between the sensor and the obstacle.
+This value is stored in a temporary variable “Tempval1” and the usable value is stored in “Tempval2”.
+While updating the values, if the difference between Tempval1 and Tempval2 is large (>60 or <-60), we give less weight to the new sensor reading in the Tempval2 calculation.
+If this difference is small, we calculate Tempval2 by adding 40% of the new sensor data (Tempval1) with 60% of the old reading (Tempval2).
+This removes any fluctuations that may occur in the sensor due to noise.
+At the end, we put the float variable named Tempval2 in an int variable named "Finalval" and display it to the user on the serial monitor using the Serial. print command.
+Once the code is compiled and uploaded to the Arduino, open the serial monitor to view the system output.
+ 
+Note: If the system does not output correctly or gives erratic readings, adjust the transformer in the upper left corner of the board as shown in the diagram.
+ 
+Items in the file: Complete the source file
+Using Edge Impulse to Detect Fever with Arduino
+Edge Impulse Studio can be used to train machine learning models such as object classification, cough detection, speech recognition, and many more. In this tutorial, we are going to use Edge Impulse Studio to train a simple signal-based model to detect whether a person has a fever or not.
+What is Edge Impulse?
+Edge impulse helps manufacturers reduce the entire process of connecting hardware, collecting data from it, preprocessing it, and then creating models with it from days or months to hours. The platform is free for personal projects and very easy to use. It has an intuitive user interface that guides you through the steps of building a model without exposing you to unnecessary complications. At the same time, it ensures that it gives you enough options to collect/upload your data and customize the entire model and its training process.
+Why do we use Edge Impulse models for this project?
+We will use the Arduino Nano 33 IoT because it can be easily integrated with the library released by edge impulse. To do this project, we integrate the MLX90614 sensor to measure the temperature of a person's fingers and predict whether he has a fever or not. While at first I thought this project might be very simple using thresholds, it is not and the project is more complex for the following reasons:
+1. The ambient temperature and the distance between the finger and the max sensor change the measured value of the temperature of the object significantly.
+2. A person's body temperature may be slightly different on different days
+3. Different people with different ethnic backgrounds also have different characteristics and slightly different body temperatures
+4. Finger temperature is several degrees lower than body temperature
+The circuit connecting MLX90614 to Arduino Nano 33 IoT
+The schematic is very simple. We will use mlx90614 and a 1.3-inch OLED I2C display. Connections are very simple as both modules (MLX90614 and OLED display) work with I2C communication.
+Arduino training course, ESP32 training course, STM32 training course, Electronics training course
+Board Pico training course, Raspberry Pi training course, Altium Designer training course, do you want a course discount?
+AVR training course, Proteus training course, Internet of Things training course, board and electronic parts store
+Edge Impulse Studio can be used to train machine learning models such as object classification, cough detection, speech recognition, and many more. In this tutorial, we are going to use Edge Impulse Studio to train a simple signal-based model to detect whether a person has a fever or not.
+What is Edge Impulse?
+Edge impulse helps manufacturers reduce the entire process of connecting hardware, collecting data from it, preprocessing it, and then creating models with it from days or months to hours. The platform is free for personal projects and very easy to use. It has an intuitive user interface that guides you through the steps of building a model without exposing you to unnecessary complications. At the same time, it ensures that it gives you enough options to collect/upload your data and customize the entire model and its training process.
+Why do we use Edge Impulse models for this project?
+We will use the Arduino Nano 33 IoT because it can be easily integrated with the library released by edge impulse. To do this project, we integrate the MLX90614 sensor to measure the temperature of a person's fingers and predict whether he has a fever or not. While at first I thought this project might be very simple using thresholds, it is not and the project is more complex for the following reasons:
+
+1. The ambient temperature and the distance between the finger and the max sensor change the measured value of the temperature of the object significantly.
+2. A person's body temperature may be slightly different on different days
+3. Different people with different ethnic backgrounds also have different characteristics and slightly different body temperatures
+4. Finger temperature is several degrees lower than body temperature
+The circuit connecting MLX90614 to Arduino Nano 33 IoT
+The schematic is very simple. We will use mlx90614 and a 1.3-inch OLED I2C display. Connections are very simple as both modules (MLX90614 and OLED display) work with I2C communication.
+Arduino training course, ESP32 training course, STM32 training course, Electronics training course
+Board Pico training course, Raspberry Pi training course, Altium Designer training course, do you want a course discount?
+AVR training course, Proteus training course, Internet of Things training course, board and electronic parts store
+ 
+Arduino Nano 33 IOT Display/MLX90614 sensor
+5V VCC
+GND GND
+A4 SDA
+A5 SCL
+Teaching fever detection model with Edge Impulse Studio
+Training a machine learning model with Edge Impulse is very simple and can be completed in 7-8 steps. All steps of model training with Edge Impulse are explained below:
+1. Register on the website and create your project
+The first step is to register on the Edge Impulse website. After registration, you will see a dashboard page that shows you the main flow of model development in Edge Impulse. You will be prompted to create and name a new project. As mentioned in the project information, select the labeling method as “one label per data item” and the delay calculations on Cortex-M4F 80 MHz. For vision-based models, you can select the bounding boxes option. Many other processors and boards are supported by the edge impulse platform.
+
+ 
+2. Data collection using Data-Forwarder
+If you click on the "LET'S COLLECT SOME DATA" button, you will see a variety of options.
+ 
+We use the data-forwarder option which uses python3, node.js, and cli to collect data from your hardware device and then forward the collected information to the edge impulse platform. First, load the provided data collection script into the Arduino 33 IOT board settings. While the device is still connected to your laptop/desktop, open a cmd or command prompt and enter the following command in it.
+$ edge-impulse-data-forwarder
+The sender of the data should then respond accordingly:
+Edge Impulse data forwarder v1.5.0
+? What is your username or e-mail address (edgeimpulse.com)? <enter registered email-id>
+? What is your password? <enter password>
+Endpoints:
+     Websocket: wss://remote-mgmt.edgeimpulse.com
+     API: https://studio.edgeimpulse.com
+     Ingestion: https://ingestion.edgeimpulse.com
+[SER] Connecting to /dev/tty.usbmodem401203
+[SER] Serial is connected
+[WS] Connecting to wss://remote-mgmt.edgeimpulse.com
+[WS] Connected to wss://remote-mgmt.edgeimpulse.com
+? To which project do you want to add this device? <project_name>
+? 3 sensor axes detected. What do you want to call them? Separate the names with ',': <axis1,axis2,axis3,…>
+? What name do you want to give this device? <device_name>
+[WS] Authenticated
+Enter the registration credentials, the name of the project you just created, and name the 2 axes identified as O_Temp and A_Temp respectively. The data frequency should be detected automatically. This would be:
+If you return to the edge impulse user interface, you should see the name of the newly added device as shown below-
+ 
+The green dot indicates that the device is active and connected. Now, select Data Acquisition on the left and you can see the following screen:
+ 
+Enter the desired sample length and then click on the Start Sampling button. The counter should start working instead of the sampling button that was just pressed, and after the entered time, the collected data will be displayed as shown. You can rename and label the sample by clicking on the 3 dots to the right of each collected sample. To view the details of the collected sample, just click on it.
+ 
+. create an impulse
+Impulses are used to train the model from the collected signal values. Select the Impulse design tab on the left and you will see a new page. Set it to look like this:
+ 
+Look at the different options and blocks available. You can choose blocks based on your data and even choose the axes you want to train the data on. Edge impulse explains each block and its usage. We will use raw data because it allows us to get the values directly from our sensor to the model API and it also saves processing time. Keep the frequency at two hertz. This means that we feed sensor data to the model every 500 milliseconds. Note that this does not mean that we are reading the sensor data at the same rate. We might read the data faster to average it before feeding it to the model. Therefore, our sample length will be 1/frequency or 500 mm. Check both items – O_Temp and A_Temp in the raw data block because we want our model to work at different ambient temperatures.
+4. Create features
+Now we proceed to create features from our raw data. Under impulse design, when you save the impulse you just created, the circle next to “Create impulse” should turn green, indicating that your impulse has been created. Depending on the blocks you have added, you should also see additional tabs such as "Raw data". When you click on the Raw data tab, the following screen should open:
+If you look closely, there is nothing but O_Temp, A_Temp, or 1 sample that we are collecting. This seems to be true because we used a frequency of 2 and a window size of 500 ms. Select “Generate features” on the top tab, which leads to this page:
+ 
+You don't see any charts because we haven't created any features yet. Click the “Generate features” button and you will see the impulse feature start learning from the collected data. It runs a K-means algorithm and clusters data with the same label together. You should be able to see a 3D diagram on the right, with all the different labels in different colors. After doing this, we can now start training the model.
+. Architecture and model education
+Select the NN Classifier tab on the left. You will be able to see the following window, keep the default settings as they are, or change them a bit. Click on start training and within a few minutes you should do 50 cycles and it will show you the accuracy of the model. Since this is a relatively simple project, we should see a very high accuracy of 98.
+ 
+6. Testing the model on test samples
+After this, we can check how the model works using the live classification tab.
+ 
+You can take a new sample by attaching a registered data collection device using the forwarder, or you can classify an existing test sample.
+You will be able to see how each new/test sample window is classified visually and in a report-like format in the "Detailed result" section.
+ 
+7. Calculation of test accuracy
+Now we will see how the model performs on the test data we have collected in general. Select the "Model Testing" tab and press the "Classify all" button.
+
+You should see the accuracy of the test in the form of a matrix.
+8. Versioning and deployment
+Versioning helps you create multiple versions of the same model and project. Finally, we go to the Deployment tab. In the Create a Library section, select the Arduino library option and then go down. You will see the optimization options available for NN classification. Press the Analyze Optimizations button to see which optimization is better. In our case, float32 works better so we build the library using that.
+ 
+Click the build button and a zip file will automatically start downloading.
+ 
+Congratulations! You have successfully created your first edge impulse model!
+Deploying the trained model in Arduino Nano 33 IoT
+Now we will use the downloaded library to classify samples. The first step is to open the Arduino IDE, go to the "Sketch" section, select "Include Library" and import a .zip file. You should be able to see the library in the examples folder. Our inference file is static_buffer. If you remember, in step 4 when we created the properties, we can see 2 types – raw and DSP or processed which were the same in our case. The static buffer instance uses these properties to perform inference on a particular instance window. Since we are using raw features, we can directly convert this example into a live inference example by replacing the values copied into the feature array from the edge impulse UI with values measured by the MLX sensor used. You can download all required libraries from the download file at the bottom of the page.
+ 
+So, the following array
+static const float features[] = {
+     // copy raw features here (for example from the 'Live classification' page)
+     // see https://docs.edgeimpulse.com/docs/running-your-impulse-arduino
+};
+Inside the static_buffer example has been replaced with
+Object = mix.readObjectTempF();
+Ambient = mlx.readAmbientTempF();
+  ei_printf("Edge Impulse standalone inferencing (Arduino)\n");
+features[0] = Object;
+features[1] = Ambient;
+In our modified version
+It allows us to run our classifier live on the Arduino Nano 33 IOT. The rest of the code requires a deep understanding of Tf-lite and impulse edge APIs, which is beyond the scope of this project. After finishing the changes, select Arduino 33 IoT in the Board section and upload the code. After loading the code, open the serial monitor and the output will appear as below-
+ 
+As you can see, the inference time is only 3 milliseconds, which is great. Our model works very well even on different days in different ambient temperatures. This way you can use Edge Impulse Studio to train a custom machine learning model.
+Items in the file: complete source, library files
+
+Recognizing hand posture with Raspberry Pi (Rock, Paper, Scissors game)
+We have all played rock, paper, and scissors at least once. This is a very simple game where each player chooses one of three items (rock, paper, and scissors). There are the following rules in this game:
+• Paper beats rock
+• Scissors cut the paper
+• The rock beats the scissors
+So in today's tutorial, we will learn how to run Rock, Paper, and Scissors with Raspberry Pi using OpenCV and Tensorflow. This project consists of three stages:
+•	Collecting data
+• Model training
+•	Motion Detection
+In the first stage, we collect images of rock, paper, scissors, and blanks. This dataset contains 800 images belonging to four classes. In the second step, we will train the recognizer to recognize the gestures made by the user, and in the last step, we will use the trainer data to recognize the user's hand gestures. By detecting the user's movement, Raspberry Pi performs a random movement and after comparing both hand positions, the winner is announced.
+Video display
+00:00
+00:43
+required pieces
+• Raspberry Pie
+• Pi camera module
+Here, we only need the RPi 4 camera module and a Pi board with OpenCV and Tensorflow installed. OpenCV is used here for digital image processing. The most common applications of digital image processing are object recognition, face recognition, and people counting.
+Arduino training course, ESP32 training course, STM32 training course, Electronics training course
+Board Pico training course, Raspberry Pi training course, Altium Designer training course, do you want a course discount?
+AVR training course, Proteus training course, Internet of Things training course, board and electronic parts store
+
+Install OpenCV
+Raspberry Pi must be fully up-to-date before installing OpenCV and other dependencies. To update Raspberry Pi to the latest version, use the following commands:
+sudo apt-get update
+Then use the following commands to install the dependencies required to install OpenCV on your Raspberry Pi.
+sudo apt-get install libhdf5-dev -y
+sudo apt-get install libhdf5-serial-dev –y
+sudo apt-get install lib-atlas-base-dev –y
+sudo apt-get install lib jasper-dev -y
+sudo apt-get install libqtgui4 –y
+sudo apt-get install libqt4-test –y
+After that, use the command below to install OpenCV on your Raspberry Pi.
+pip3 install opencv-contrib-python==4.1.0.25
+Installing imutils: The imutils package is used to facilitate image processing functions such as translation, rotation, resizing, skeletonization, and rendering of Matplotlib images with OpenCV. To install imutils, use the following command:
+pip3 install imutils
+Install Tensorflow: Use the following command to install Tensorflow:
+sudo pip3 install https://github.com/lhelontra/tensorflow-on-arm/releases/download/v2.2.0/tensorflow-2.2.0-cp37-none-linux_armv7l.whl
+learn (Scikit-learn): This is a Python library that provides a wide range of supervised and unsupervised learning algorithms through a static interface in Python. Here we are going to use it to build a machine learning model that can recognize hand gestures. Use the following command to install sklearn on Raspberry Pi.
+pip3 install sklearn
+SqueezeNet: This is a neural network model for computer vision. SqueezeNet is a small neural network model that runs on top of the Caffe deep learning framework. Here, we used SqueezeNet because of its small size and accuracy. It is more possible to deploy this model in hardware with limited memory. Install keras_squeezenet using the following command:
+pip3 install keras_squeezenet
+Programming Raspberry Pi for hand motion detection
+As mentioned earlier, we plan to complete this project in three phases. The first step is to collect information. The second case is recognition training and the third is recognition of the movement performed by the user. The project folder contains the following:
+• Dataset: This folder contains images related to paper, scissors, rock, and blank images.
+• image.py: A simple Python script to collect images to build a dataset.
+• training.py: This accepts the input dataset and sets Squeezenet on it to build our motion detection model (game-model.h5).
+• game.py: This script detects rock, paper, and scissors using trainer data and also randomizes a move for Raspberry Pi.
+You can download the complete project folder and source codes from the bottom of the page.
+1. Data collection
+In the first phase of the project, we want to create a dataset that contains 200 images for each class (rock, paper, scissors, and nothing). Image.py is a simple Python script that uses OpenCV to collect motion images. Open the image.py file in the folder and paste the given code. Then we start collecting images using the following command:
+python3 image.py 200
+Once you've run the script, press the "r" key to take screenshots of Rock's motion, and then press "a" to start the process. You have to press "p" for paper, "s" for scissors, and "n" for nothing.
+If you have any questions about this article, ask in the comments section
+The image collection program is described below:
+The script starts by calling the required packages.
+import cv2
+import os
+import sys
+The next line of code accepts the system argument and is used to enter the number of samples we want to collect.
+num_samples = int(sys.argv[1])
+Then enter the data path where all these images are stored.
+IMG_SAVE_PATH = 'images'
+The following lines create the image directory folder.
+try:
+     os.mkdir(IMG_SAVE_PATH)
+except FileExistsError:
+     pass
+Then create a rectangle using the cv2.rectangle function. When running the script, you must put your hands inside this rectangular box.
+cv2.rectangle(frame, (10, 30), (310, 330), (0, 255, 0), 2)
+
+Then recognize the keystrokes in the next lines. If the pressed key is “r”, set the label name to “rock” and create a folder named rock inside the image directory. If the pressed key is "p", set the label name to paper and so on.
+k = cv2.waitKey(1)
+     if k == ord('r'):
+             name = 'rock'
+             IMG_CLASS_PATH = os.path.join(IMG_SAVE_PATH, name)
+             os.mkdir(IMG_CLASS_PATH)
+     if k == ord('p'):
+             name = 'paper'
+             IMG_CLASS_PATH = os.path.join(IMG_SAVE_PATH, name)
+             os.mkdir(IMG_CLASS_PATH)
+     if k == ord('s'):
+             name = 'scissors'
+             IMG_CLASS_PATH = os.path.join(IMG_SAVE_PATH, name)
+             os.mkdir(IMG_CLASS_PATH)
+     if k == ord('n'):
+             name = 'nothing'
+             IMG_CLASS_PATH = os.path.join(IMG_SAVE_PATH, name)
+             os.mkdir(IMG_CLASS_PATH)
+If the start button is pressed, create a Region of Interest (ROI) around the rectangle we created earlier and save all the images inside the directory using the path entered earlier.
+roi = frame[25:335, 8:315]
+         save_path = os. path.join(IMG_CLASS_PATH, '{}.jpg'.format(counter + 1))
+         print(save_path)
+         cv2.imwrite(save_path, roi)
+         counter += 1
+     font = cv2.FONT_HERSHEY_SIMPLEX
+     cv2.putText(frame,"Collecting {}".format(counter),
+             (10, 20), font, 0.7, (0, 255, 255), 2, cv2.LINE_AA)
+     cv2.imshow("Collecting images", frame)
+2. Model training
+Now that we have collected the images, we can pass them to the neural network and start the training process to automatically recognize the movement made by the user. So, open the train.py file in the game folder and paste the given code. Then start the training process using the following command:
+python3 training.py
+The Python script for the Recognizer tutorial is described below:
+The Training.py script starts by importing the required packages. The following lines after importing the packages are used to specify the path to the image directory and class map.
+IMG_SAVE_PATH = 'images'
+CLASS_MAP = {
+     "rock": 0,
+     "paper": 1,
+     "scissors": 2,
+     "nothing": 3
+}
+Now load all the images into the Python script so we can start the tutorial. The preprocessing steps include converting the images to RGB from BGR, resizing the images to 227 x 227 pixels, and converting them to array format.
+for the directory in os. listdir(IMG_SAVE_PATH):
+     path = os. path.join(IMG_SAVE_PATH, directory)
+     if not os. path.dir(path):
+         continue
+     for item in os.listdir(path):
+         if item.starts with("."):
+             continue
+         img = cv2.imread(os.path.join(path, item))
+         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+         img = cv2.resize(img, (227, 227))
+         dataset.append([img, directory])
+Now, we call the get model function and compile the model with the Adam optimizer.
+model = get_model()
+model. compile(
+     optimizer=Adam(lr=0.0001),
+     loss='categorical_crossentropy',
+     metrics=['accuracy']
+)
+After this, start training the model and save the model as “game-model.h5” after the training is finished.
+model.fit(np.array(data), np.array(labels), epochs=15)
+model.save("game-model.h5")
+3. Hand movement detection
+Now, in the last step of our project, we will use the trainer data to classify each hand gesture from the live video. So open the game.py file and paste the given code. The Python code is explained below:
+Like the training.py script, this script starts by importing the required packages. The following lines after importing the packages are used to create the reverse class-map function.
+REV_CLASS_MAP = {
+     0: "Rock",
+     1: "Paper",
+     2: "Scissors",
+     3: "Nothing"
+}
+The calculate_winner function checks and compares the movement of the user's hand and the movement of the Raspberry Pi, and finally, the winner is announced. The rules of the rock, paper, scissors game are used to determine the winner.
+def calculate_winner(user_move, Pi_move):
+     if user_move == Pi_move:
+         return "Tie"
+     elif user_move == "rock" and Pi_move == "scissors":
+         return "You"
+     elif user_move == "rock" and Pi_move == "paper":
+         return "Pi"
+     elif user_move == "scissors" and Pi_move == "rock":
+         return "Pi"
+     elif user_move == "scissors" and Pi_move == "paper":
+         return "You"
+     elif user_move == "paper" and Pi_move == "rock":
+         return "You"
+     elif user_move == "paper" and Pi_move == "scissors":
+         return "Pi"
+Then, in the next line, load the trained model and start streaming the video
+model = load_model("game-model.h5")
+cap = cv2.VideoCapture(0)
+Inside the loop, create two rectangles on the left and right sides of the frame. The left rectangle is for user movement and the right rectangle is for Raspberry Pi movement. Then it converts the image area inside the user's rectangle to RGB format and changes its size to 227 x 227.
+     cv2.rectangle(frame, (10, 70), (300, 340), (0, 255, 0), 2)
+     cv2.rectangle(frame, (330, 70), (630, 370), (255, 0, 0), 2)
+     roi = frame[70:300, 10:340]
+img = cv2.cvtColor(ROI, cv2.COLOR_BGR2RGB)
+     img = cv2.resize(img, (227, 227))
+Now, use the pattern we taught earlier and detect motion. We compare the detected motion with the images and print the name of the motion.
+pred = model.predict(np.array([img]))
+move_code = np.argmax(pred[0])
+user_move_name = mapper(move_code)
+On the next line, check if the user moves. Otherwise, let the Raspberry Pi make its random move and then use the calculate_winner function to decide the winner. If the user's move is "nothing", wait for the user to make a move.
+if prev_move != user_move_name:
+         if user_move_name != "nothing":
+             computer_move_name = choice(['rock', 'paper', 'scissors'])
+             winner = calculate_winner(user_move_name, computer_move_name)
+         otherwise:
+             computer_move_name = "nothing"
+             winner = "Waiting..."
+     prev_move = user_move_name
+In these lines, we have used the cv2.putText function to display the user's movement, the movement of the Raspberry Pi, and the winner's name in the frame.
+font = cv2.FONT_HERSHEY_SIMPLEX
+     cv2.put text(frame, "Your Move: " + user_move_name,
+                 (10, 50), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
+     cv2.putText(frame, "Pi's Move: " + computer_move_name,
+                 (330, 50), font, 1, (255, 255, 255), 2, cv2.LINE_AA)
+     cv2.putText(frame, "Winner: " + winner,
+                 (100, 450), font, 2, (0, 255, 0), 4, cv2.LINE_AA)
+Now, we will display the motion of the Raspberry Pi inside the rectangle we created earlier. The Raspberry Pi board randomly selects one of the images stored in the "test_img" folder.
+if computer_move_name != "nothing":
+         icon = cv2.imread(
+             "test_img/{}.png".format(computer_move_name))
+         icon = cv2.resize(icon, (300, 300))
+         frame[70:370, 330:630] = icon
+Now that everything is ready, connect the Raspberry Pi Camera module to the Raspberry Pi as shown below:
+ 
+Then run the game.py script. After a few seconds, you should see your camera's image view window with two rectangles. The left rectangle is for user movement and the right one is for Raspberry Pi movement. So, set your hand inside the rectangle and make a move. Recognizing your hand posture, Raspberry Pi also moves and after comparing both movements, the winner is announced.
+This way you can play the rock paper scissors game using Raspberry Pi, OpenCV, and Python.
+Items in the file: complete source and required images
+What is the artificial eye (bionic) and how does it work?
+"The best way to thank God for having sight is to help those who are in the dark."
+We are living in a place full of colors and images that we see daily, life without seeing is dark, and blind people live in this darkness. It has made us not just to help a blind person to cross the road, we have to do more for him as a human being. Since we belong to the community of engineers, nothing is impossible for us if we try. If scientists produce ideas, engineers put life into these ideas. Today we have all the machines in our hands, so it is our turn to give back what mankind gives us.
+Today, in the world, about 40 million people suffer from blindness and about 140 million people suffer from low vision, and if we talk about India, we have the highest number of people with blindness in the world. The purpose of the bionic eye is to restore the vision signal to people who suffer from eye diseases such as retinitis pigmentosa. In this technology, a video camera is integrated with a pair of glasses that record and process images. The images are sent wirelessly to a small processor, which converts them into electronic signals, and these signals are further transmitted to the retina or electrode, which sends the visual signal to the brain for further processing. Therefore, even blind people can see with this technology.
+human eye
+When a light beam from an object reaches our eyes, signals are sent to the brain, which then decodes the signal to visualize the appearance, position, and movements of the object we are observing. The whole process is done only by light, without light there is no world, which means we cannot see anything without light.
+Arduino training course, ESP32 training course, STM32 training course, Electronics training course
+Board Pico training course, Raspberry Pi training course, Altium Designer training course, do you want a course discount?
+AVR training course, Proteus training course, Internet of Things training course, board and electronic parts store
+
+The main part of the eye is the retina. The retina is the inner wall of the eye that works as a camera film to capture light signals and transmit them to the brain through the optic nerves to create vision.
+
+How the artificial eye works
+This device consists of 3500 microphotodiodes placed on the back of the retina. The electrical signal sent to the brain comes from these tiny solar cells as they convert natural light into an electrical signal.
+ 
+A bionic eye, which is a camera attached to glasses and can be used by a blind person, works like a human eye. The size of the camera is small because it is placed on the frame of the glasses, and we can adjust this structure so that the image is sent to a small electronic chip (microprocessor). The job of the microprocessor is to convert the image data into an electronic signal and transmit it to the receiver, which sends the signals through a very small wire to an electrode plate implanted by doctors in the back wall of the eye, called the retina. They also say The electrode plate produces pulses that are transmitted to the brain through the optic nerve, the optic nerve of a blind person is sometimes damaged, so we use some devices that can bypass the signal in possible ways, so only The signal can reach the brain. When the signal reaches the brain, the brain starts decoding the signal and we can identify the object, this process is so fast that we can see similar to the human eye.
+Usable bionic eye system
+The bionic eye system, developed by California-based company Second Sight, is the Argos II Retinal Prosthetic System, which has been approved by the FDA in the United States. A retinal prosthesis is a medical implant used to restore a portion of useful vision to those who have lost their vision due to this disease.
+According to a survey, one out of every 5000 people has this disease. Previously, a pulse signal was provided to the brain using a retinal implant for a blind person. A small video camera is used to acquire data that is transmitted wirelessly to a video processing unit that converts the data into an electronic signal, and then the signals transmitted to the electrodes create an impulse for interpretation in the brain. and a blind person can see like a normal person, but his vision is not 100% perfect.
+ 
+The future of artificial eyes
+In the future, we will be able to increase the number of electrodes capable of producing clearer, more colorful, and functional images for blind people from retinitis pigmentosa and other retinal diseases, including macular degeneration.
+If you have any questions about this article, ask in the comments section
+Scientists are testing devices with more electrodes to bypass the retina and transmit signals directly to the brain. The next-generation Argos II retinal stimulator is designed to have 60 controllable electrodes that display higher-resolution images to people.
+
+What do the surroundings look like when you see with a bionic eye?
+The vision provided by the bionic eye is different from the vision that humans have had before. This vision is not completely complete or clear. In a test conducted by the manufacturer, about half of the blind were able to read very large letters about 9 inches high from a distance of 1 foot or 23 centimeters from 0.3 meters. Few blind people were able to read smaller letters about 1-2 inches high at 1 foot or about 2.5-5 cm high seen from 0.3 meters away and short words. After testing, it was found that the majority of blind people would benefit from the Argos II system.
+Video display
+00:00
+00:08
+Limitations
+• Finally, it's all about the cost of artificial eyes, for a pair of eyes it costs something like 30,000 dollars, which is not a good amount for the affected person.
+• Every kind of person with eye disease is not treated with this method, for example, it will not be useful for glaucoma patients, as it mainly helps people with retinitis pigmentosa.
+• Artificial replacement for the human body is a dangerous thing because it may cause death or some serious things may happen.
+• As we know it is not a human eye but an artificial eye so an affected person cannot have 100% perfect vision.
