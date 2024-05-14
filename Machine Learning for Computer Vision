@@ -1,0 +1,1722 @@
+# Machine Learning for Computer Vision
+
+Meet Your Instructors
+Welcome to Computer Vision for Engineering and Science. We’re excited you’re here to gain skills in this rapidly expanding field. We are all passionate about teaching and are excited to bring you a fun, interactive, and inclusive learning experience.
+You’ll see and hear some of us in the videos, but everyone below developed examples, quizzes, and content to help you learn about computer vision. We had a lot of fun building this course and hope you’ll find the material useful in your career. If you get stuck, just post your question on the forums. Good luck!
+Amanda Wang is an Online Content Developer at MathWorks. She earned a B.S. in Mathematics with Computer Science and a B.S. in Business Analytics from MIT in 2020. In addition to developing MATLAB-based courses with the Online Course Development team, she is currently pursuing an M.S. in Computer Science from the University of Illinois Urbana-Champaign.
+Isaac Bruss is a Senior Online Content Developer at MathWorks. He earned his Ph.D. from the University of Massachusetts Amherst in 2015, performing research in a number of projects related to biophysics. One such project involved using confocal microscope videos to track the migration of nanoparticles tethered to a surface using DNA. Most recently, he taught undergraduate physics at Hampshire College. Now at MathWorks, he happily supports and designs MATLAB-based online courses.
+Matt Rich is a Senior Online Content Developer at MathWorks. He holds a Ph.D. and M.S. in Electrical Engineering from Iowa State University. His Ph.D. research developed new methods to design control systems over networks with communication interrupted by random processes. His MS research focused on system identification and robust control methods for small UAVs with uncertain physical parameters. Prior to his current role, he worked supporting MathWorks Model-Based Design tools in industry and academia.
+Megan Thompson is a Senior Online Content Developer at MathWorks. She earned her Ph.D. in bioengineering from the University of California at Berkeley and San Francisco in 2018. As a medical imaging research scientist, she used image processing to study concussions in football, dementia, schizophrenia and more. Now at MathWorks, she designs and supports MATLAB-based online courses to help others analyze data and chase their own answers. 
+Brandon Armstrong is a Senior Team Lead in Online Course Development at MathWorks. He earned a Ph.D. in physics from the University of California at Santa Barbara in 2010. His research in magnetic resonance has been cited over 1000 times, and he is a co-inventor on 4 patents. He is excited to create courses on image and video processing as he owns a green screen just for fun!
+Course files and MATLAB
+This course is part of the Computer Vision for Engineering and Science specialization and assumes you have prior experience with image processing.
+To gain access to MATLAB, visit the Introduction to Computer Vision course, which includes a license to MATLAB that is valid for the whole specialization. 
+Additionally, the required files for this course are accessible from Introduction to Computer Vision. Visit course 1 of this specialization to access the required course files.
+Machine-learning is essential for 
+many computer vision applications 
+from automated driving, 
+to fresh food distribution, to disease diagnosis. 
+This video introduces a 
+machine-learning workflow that you will follow 
+throughout this course to train models that 
+perform image classification and object detection. 
+Think of this workflow as a roadmap that you can 
+refer to as you perform 
+machine-learning on your datasets. 
+The final goal is to make predictions on 
+new images that the model has never seen. 
+Ultimately, given a new unlabeled image, 
+you'll be able to extract features that 
+the trained model can interpret, to assign a label. 
+You create a model by training it 
+with data called predictor features. 
+In computer vision, 
+these predictor features are 
+extracted from a set of images. 
+Before you can extract features, 
+you must prepare your images. 
+Classification and object detection models 
+require two things to train, 
+a collection of image features 
+and a label for each of these images. 
+Creating labels for your dataset 
+is the first step of preparing your data. 
+They will serve as a ground truth. 
+The next preparation task is to split 
+your labeled data into training and test sets. 
+The training set will be used to train your model. 
+The test set is put aside until later. 
+With any machine-learning application, 
+perform this step before proceeding with the workflow. 
+This is to avoid inadvertently biasing your test set, 
+giving you misleading or incorrect results. 
+The last step of data preparation is to 
+perform image processing as necessary. 
+For example, spatial filtering 
+or contrast adjustment can 
+improve results for the next part of 
+the workflow, extracting features. 
+You've already learned some ways to 
+extract features in Course 1 of the specialization. 
+You'll learn new ways here. 
+Once you have extracted features, 
+you can use them in conjunction with the image or 
+object labels to train your model. 
+You will try a variety of different model types and learn 
+how to improve your results by tuning model parameters. 
+The last part of the workflow is 
+to evaluate your trained model. 
+In this step, you determine 
+which trained model works best for 
+your application using evaluation metrics 
+such as accuracy and confusion matrices. 
+Remember the test set you set aside earlier, 
+now's the time to use it. 
+Apply your model to the test images 
+and evaluate the results. 
+This gives you an estimate of how well the model 
+will perform on new unlabeled images. 
+It's important to remember that 
+you're not meant to go straight through 
+this workflow only once per 
+application because 
+machine-learning is an iterative process, 
+you'll often need to update your strategy and 
+retry various steps for the best results. 
+It's common to try a variety of approaches, 
+including choosing different models to train, 
+tuning model parameters, 
+and selecting different types of features. 
+In this course, we focus on traditional machine-learning. 
+However, deep learning follows a very similar workflow. 
+The key difference is that with deep learning, 
+the extract features step is 
+performed by the model during training, 
+taking the prepared images as inputs directly. 
+For this reason, machine-learning is well-suited to 
+applications where your images 
+have discernible features in common. 
+In this course, you'll learn to use a variety of 
+tools to develop the best models for your datasets. 
+As you perform each of these steps, 
+think about them in the context 
+of the machine-learning workflow.
+Glossary of Common Terms
+As you progress through the course, you’ll be introduced to many new terms and concepts. Use this reference to help you define them and where they fit into the Machine Learning Workflow.
+### The Machine Learning Workflow
+
+Glossary of Terms
+machine learning model: Generally, an algorithm that predicts a response using a set of predictor features. A model is trained on existing data and used to make predictions about new data.
+deep learning model: A type of machine learning model that employs multiple layers of neural networks. These can have higher potential accuracy for complex problems but at the cost of computational resources and time compared to traditional machine learning.
+image classification model: A model that predicts an image's label. For example, image classification models could use medical images to predict a disease diagnosis, "healthy" or "cancerous".
+object detection model: A model that locates and labels objects within an image, usually with a bounding box. For example, locating signs in dashcam footage.
+training data: Data used to train a model.
+validation data: A portion of the training data used during model training to properly evaluate performance and tune model hyperparameters.
+test data: Data used to simulate new observations. Test data is split from the full dataset early in the machine learning process and is not used during model training. It is only used to evaluate the final model.
+predictor features: The variables used by the model to make predictions. These can be hand-selected, like an image's average intensity, or generated automatically, like the frequency of similar SURF features.
+model parameters: Values that determine how a model is trained. Some model parameters are learned by the machine learning algorithm during training. Other parameters are set by the user prior to training.  
+model hyperparameters: Parameters that the user specifically sets before training. Hyperparameters are often determined through an optimization process of training multiple models.
+bag of features: Clusters of similar image feature descriptors that are used to create predictor features for image classification. Also known as "bag of visual words".
+ground truth: The labeled data used to train or evaluate a detection model. This consists of labels and bounding box coordinates of the objects being detected in each image.
+model evaluation: The process of quantitatively assessing a model's performance. Often done by comparing multiple types of trained models with the goal of iterative improvement.
+Previously, you learned that 
+classification models predicted 
+the discrete value or values of 
+a response using one or more predictors. 
+You can think of this as categorizing 
+some unknown items into a discrete set of classes. 
+Classification is widely applicable. 
+It is used for email filtering, speech 
+and handwriting recognition, 
+medical diagnosis, and much more. 
+So, how does classification work? 
+In this video, you'll learn the basics of 
+two popular image classification models. 
+Let's begin with the K-Nearest Neighbors model, 
+also known as KNN. 
+KNN, like all classification models, 
+can work with any number of 
+predictor features and response classes, 
+but for the following examples, 
+we'll just have two of each. 
+This classification model assumes that 
+similar things exist in close proximity, 
+or in other words, are near to each other. 
+KNN predicts a response by looking at 
+a given number K of neighboring observations. 
+To better understand how KNN works, 
+consider an example in which you set K equal to 3. 
+For a new data point, 
+the classification will take into 
+account the point's three nearest neighbors. 
+Here, notice two of the data points are labeled as 
+class 2 and one is labeled as class 1. 
+Since the majority of the neighbors belong into class 2, 
+the new data point is classified as class 2. 
+This is also known as a majority voting mechanism. 
+A KNN model is different from 
+most other classification models in that making 
+a new prediction requires referencing it to 
+all existing data rather 
+than running it through a mathematical equation. 
+Therefore, KNN models can be 
+computationally expensive for large datasets. 
+Also, you need to be mindful of 
+the right value for K. A value 
+of one might lead to 
+predictions that are less robust to noise or outliers. 
+Larger values of K will produce 
+more stable predictions due to majority voting, 
+but eventually, a very large value of K will make 
+less accurate predictions as it 
+becomes difficult to capture complex behavior. 
+You'll need to adjust K to find 
+the most appropriate value for a particular dataset. 
+Depending on the value of K, 
+it is common to use the terms fine, 
+medium, and coarse when describing KNN classifications. 
+In general, the KNN classification model 
+is among the easiest to understand and interpret. 
+KNN's main disadvantage is that it becomes 
+significantly slower as the volume of data increases. 
+This can make it an impractical choice 
+in environments where predictions must be made 
+rapidly or where there are 
+tight memory constraints since 
+all the data must be available when making a prediction. 
+The next type of model covered in this video is 
+called Support Vector Machine or SVM. 
+SVM models are also 
+a popular choice for 
+classification because of their flexibility. 
+In the binary classification problem, 
+suppose you want to separate 
+the orange squares representing 
+Class 1 from the blue circles representing Class 2. 
+Any line shown on this plot is a viable option. 
+They would all perfectly separate 
+the orange squares from the blue circles, 
+but is there an optimal line or decision boundary? 
+In order to best capture the behavior of the data, 
+the goal is to find the line that will most accurately 
+classify new observations into one of the two classes. 
+You would probably want a line that is evenly spaced 
+between these two classes 
+and provides a buffer for each class. 
+That's exactly what SVM does. 
+The algorithm tries to find a line 
+that's right in the middle of your two classes, 
+maximizing the distance between 
+the two called the margin. 
+To find the line that maximizes the margin, 
+the SVM algorithm first finds 
+the points closest to the line from both classes. 
+These points are called support vectors. 
+Thus, the SVM algorithm 
+tries to find a decision boundary in 
+such a way that the separation between 
+the two classes is as wide as possible. 
+In this two-dimensional case, 
+that decision boundary corresponds to a line, 
+but this boundary is generally known as a hyperplane, 
+which is applicable in higher dimensions. 
+In a short, a support vector machine 
+is a classifier that finds 
+an optimal hyperplane that 
+maximizes the margin between two classes. 
+In real examples, it's usually impossible to 
+find a hyperplane that 
+perfectly separates the two classes. 
+A point inside the margin but correctly 
+classified is called margin error. 
+A point on the wrong side of 
+the separating boundary is a classification error. 
+The total error is the sum of 
+the margin error and the classification error. 
+What happens when the data cannot be separated by 
+a straight line or hyperplane, as shown here? 
+In these situations, you can use 
+a kernel method which projects 
+the data into an extra dimension. 
+Instead of a decision line, 
+there is now a decision surface 
+that separates the points. 
+This concept can be generalized to higher dimensions. 
+With the Kernel Method, 
+you map data into 
+a higher-dimensional space where 
+the data is linearly separable. 
+The mathematical function used for 
+the transformation is known as 
+the kernel function and there are 
+different types of kernel functions. 
+Linear is the most common, 
+but other options include polynomial, 
+radial basis function, and particularly Gaussian. 
+Each of these functions has 
+its own characteristics and its own expression. 
+The Kernel Method is a real strength of 
+SVM as it enables you to 
+handle non-linear data efficiently. 
+However, the kernel function must be properly 
+chosen to avoid increasing the training time drastically. 
+There are many more classification models 
+available for you to choose from. 
+Each model has its own advantages and 
+disadvantages in terms of accuracy, 
+speed, and memory requirements. 
+The best way to know how they perform on 
+a particular dataset is to try them out. 
+Next, you'll learn how to quickly train 
+models in MATLAB and compare their results.
+To train a classification model, 
+you first need to turn 
+your images into a collection of numbers. 
+In this video, you will prepare 
+your data and extract features so 
+that you are ready to train and later 
+evaluate a classification model. 
+First, you'll learn how to 
+adjust the labels of an Image Datastore, 
+and split the data into training and testing datasets. 
+The dataset you'll be working with does not 
+require extensive image processing. 
+However, for some datasets, 
+this step will include 
+additional processing to 
+enable effective feature extraction, 
+such as spatial filtering to remove noise. 
+Next, you'll create 
+features to use for machine learning. 
+Here, you'll use simple features that are 
+easy to interpret, like standard deviation. 
+The end goal is to turn the images of concrete, 
+some with cracks and some without, 
+into a table where 
+each image has a label and features describing it. 
+Let's begin by assigning labels. 
+Fortunately, with this concrete dataset, 
+your images have already been sorted into 
+two folders with names describing the images. 
+In this case, "Positive" for images with 
+cracks and "Negative" for images without cracks. 
+When you create a datastore 
+from this collection of images, 
+you can use folder names as labels. 
+The current labels are "Negative" and "Positive". 
+To make these labels more descriptive, 
+use the renamecats function to change 
+the existing labels to "No Crack" and "Crack". 
+Next, split the datastore into training and test sets. 
+The splitEachLabel command 
+takes a subset of each label, 
+and assigns them to a new datastore. 
+The fraction you input 
+determines the size of each subset. 
+For a dataset of this size, 
+it's common to use 80 percent of 
+your images for training and 
+the remaining 20 percent as the test 
+set to later evaluate your final model. 
+To avoid biasing which images within 
+a label go into the training and test sets, 
+use the "randomized" option. 
+For the rest of this video, 
+you'll only be working with the training set of images. 
+Now that your dataset is prepared, 
+the next step is to extract features. 
+Looking at several of the images, 
+notice how the cracks are quite 
+dark compared to the lighter concrete. 
+Therefore, you might expect images without cracks to have 
+higher average intensities and 
+fewer intensity differences compare 
+it to images with cracks. 
+Let's use these observations to 
+create features based on intensity. 
+Read the first image from the datastore. 
+Recall that before most computations, 
+you need to convert images to datatype double. 
+Then convert to grayscale to 
+isolate just the intensities of the pixels. 
+Based on the intensity differences 
+we observed between the labels, 
+it makes sense to use the mean and 
+standard deviation of each image's 
+intensity as features. 
+To link the features back to their original images, 
+extract the file name using the "fileparts" function. 
+Because you want to repeat this process many times, 
+initialize the variables and 
+use a while loop to extract 
+features for every image in the training set. 
+Finally, create a table with all your outputs. 
+Include the image labels, names, and features. 
+You may want to perform the exact same steps 
+every time you extract features 
+from a new set of concrete images, 
+so it's a good idea to save this code as a function. 
+Save the function as a code file in 
+the same folder as the rest of the code from this video. 
+Give it a descriptive name, 
+such as extractConcreteFeatures. 
+You can now call this function to extract these features 
+anytime you need to. 
+Make sure to save the table your function created. 
+You're going to use it later to 
+train your image classification model. 
+Also, save your training and test datastores. 
+Let's test out your new function 
+by calling it on the training set. 
+Perfect! 
+Now you have a table with 
+two features and a label for each image. 
+Now for the important question, 
+are you ready for classification? 
+It's a good idea to investigate 
+your features before you train your model. 
+In this case, you might want to 
+know if your chosen features are descriptive 
+enough to reasonably differentiate 
+concrete images with cracks from those without. 
+To explore whether the features you 
+extracted will help distinguish between these labels, 
+use gscatter, to plot both mean intensity 
+and standard deviation of 
+intensity, color-coded by label. 
+Voila! You can see a clear distinction between 
+the orange "Crack" class and the blue "No Crack" class. 
+It seems likely that you'll be able to find 
+a decision boundary that can 
+mostly separate these classes. 
+Now that you've prepared 
+your data and extracted features, 
+you've got everything you need to 
+start training machine learning models.
+Preparing the Concrete Images for Classification
+You now know how to prepare a collection of images and extract basic features. So, how can you extract and visualize features from the images of concrete?
+Navigate to the Module 1 folder and open the file preparingYourImagesForClassification.mlx. Work through the live script to extract features and save them for future use training and evaluating a classification model.
+Previously, you extracted some intensity-based features from the concrete 
+image dataset. 
+
+### Glossary of Terms
+machine learning model: Generally, an algorithm that predicts a response using a set of predictor features. A model is trained on existing data and used to make predictions about new data.
+deep learning model: A type of machine learning model that employs multiple layers of neural networks. These can have higher potential accuracy for complex problems but at the cost of computational resources and time compared to traditional machine learning.
+image classification model: A model that predicts an image's label. For example, image classification models could use medical images to predict a disease diagnosis, "healthy" or "cancerous".
+object detection model: A model that locates and labels objects within an image, usually with a bounding box. For example, locating signs in dashcam footage.
+training data: Data used to train a model.
+validation data: A portion of the training data used during model training to properly evaluate performance and tune model hyperparameters.
+test data: Data used to simulate new observations. Test data is split from the full dataset early in the machine learning process and is not used during model training. It is only used to evaluate the final model.
+predictor features: The variables used by the model to make predictions. These can be hand-selected, like an image's average intensity, or generated automatically, like the frequency of similar SURF features.
+model parameters: Values that determine how a model is trained. Some model parameters are learned by the machine learning algorithm during training. Other parameters are set by the user prior to training.  
+model hyperparameters: Parameters that the user specifically sets before training. Hyperparameters are often determined through an optimization process of training multiple models.
+bag of features: Clusters of similar image feature descriptors that are used to create predictor features for image classification. Also known as "bag of visual words".
+ground truth: The labeled data used to train or evaluate a detection model. This consists of labels and bounding box coordinates of the objects being detected in each image.
+model evaluation: The process of quantitatively assessing a model's performance. Often done by comparing multiple types of trained models with the goal of iterative improvement.
+Previously, you learned that 
+classification models predicted 
+the discrete value or values of 
+a response using one or more predictors. 
+You can think of this as categorizing 
+some unknown items into a discrete set of classes. 
+Classification is widely applicable. 
+It is used for email filtering, speech 
+and handwriting recognition, 
+medical diagnosis, and much more. 
+So, how does classification work? 
+In this video, you'll learn the basics of 
+two popular image classification models. 
+Let's begin with the K-Nearest Neighbors model, 
+also known as KNN. 
+KNN, like all classification models, 
+can work with any number of 
+predictor features and response classes, 
+but for the following examples, 
+we'll just have two of each. 
+This classification model assumes that 
+similar things exist in close proximity, 
+or in other words, are near to each other. 
+KNN predicts a response by looking at 
+a given number K of neighboring observations. 
+To better understand how KNN works, 
+consider an example in which you set K equal to 3. 
+For a new data point, 
+the classification will take into 
+account the point's three nearest neighbors. 
+Here, notice two of the data points are labeled as 
+class 2 and one is labeled as class 1. 
+Since the majority of the neighbors belong into class 2, 
+the new data point is classified as class 2. 
+This is also known as a majority voting mechanism. 
+A KNN model is different from 
+most other classification models in that making 
+a new prediction requires referencing it to 
+all existing data rather 
+than running it through a mathematical equation. 
+Therefore, KNN models can be 
+computationally expensive for large datasets. 
+Also, you need to be mindful of 
+the right value for K. A value 
+of one might lead to 
+predictions that are less robust to noise or outliers. 
+Larger values of K will produce 
+more stable predictions due to majority voting, 
+but eventually, a very large value of K will make 
+less accurate predictions as it 
+becomes difficult to capture complex behavior. 
+You'll need to adjust K to find 
+the most appropriate value for a particular dataset. 
+Depending on the value of K, 
+it is common to use the terms fine, 
+medium, and coarse when describing KNN classifications. 
+In general, the KNN classification model 
+is among the easiest to understand and interpret. 
+KNN's main disadvantage is that it becomes 
+significantly slower as the volume of data increases. 
+This can make it an impractical choice 
+in environments where predictions must be made 
+rapidly or where there are 
+tight memory constraints since 
+all the data must be available when making a prediction. 
+The next type of model covered in this video is 
+called Support Vector Machine or SVM. 
+SVM models are also 
+a popular choice for 
+classification because of their flexibility. 
+In the binary classification problem, 
+suppose you want to separate 
+the orange squares representing 
+Class 1 from the blue circles representing Class 2. 
+Any line shown on this plot is a viable option. 
+They would all perfectly separate 
+the orange squares from the blue circles, 
+but is there an optimal line or decision boundary? 
+In order to best capture the behavior of the data, 
+the goal is to find the line that will most accurately 
+classify new observations into one of the two classes. 
+You would probably want a line that is evenly spaced 
+between these two classes 
+and provides a buffer for each class. 
+That's exactly what SVM does. 
+The algorithm tries to find a line 
+that's right in the middle of your two classes, 
+maximizing the distance between 
+the two called the margin. 
+To find the line that maximizes the margin, 
+the SVM algorithm first finds 
+the points closest to the line from both classes. 
+These points are called support vectors. 
+Thus, the SVM algorithm 
+tries to find a decision boundary in 
+such a way that the separation between 
+the two classes is as wide as possible. 
+In this two-dimensional case, 
+that decision boundary corresponds to a line, 
+but this boundary is generally known as a hyperplane, 
+which is applicable in higher dimensions. 
+In a short, a support vector machine 
+is a classifier that finds 
+an optimal hyperplane that 
+maximizes the margin between two classes. 
+In real examples, it's usually impossible to 
+find a hyperplane that 
+perfectly separates the two classes. 
+A point inside the margin but correctly 
+classified is called margin error. 
+A point on the wrong side of 
+the separating boundary is a classification error. 
+The total error is the sum of 
+the margin error and the classification error. 
+What happens when the data cannot be separated by 
+a straight line or hyperplane, as shown here? 
+In these situations, you can use 
+a kernel method which projects 
+the data into an extra dimension. 
+Instead of a decision line, 
+there is now a decision surface 
+that separates the points. 
+This concept can be generalized to higher dimensions. 
+With the Kernel Method, 
+you map data into 
+a higher-dimensional space where 
+the data is linearly separable. 
+The mathematical function used for 
+the transformation is known as 
+the kernel function and there are 
+different types of kernel functions. 
+Linear is the most common, 
+but other options include polynomial, 
+radial basis function, and particularly Gaussian. 
+Each of these functions has 
+its own characteristics and its own expression. 
+The Kernel Method is a real strength of 
+SVM as it enables you to 
+handle non-linear data efficiently. 
+However, the kernel function must be properly 
+chosen to avoid increasing the training time drastically. 
+There are many more classification models 
+available for you to choose from. 
+Each model has its own advantages and 
+disadvantages in terms of accuracy, 
+speed, and memory requirements. 
+The best way to know how they perform on 
+a particular dataset is to try them out. 
+Next, you'll learn how to quickly train 
+models in MATLAB and compare their results.
+To train a classification model, 
+you first need to turn 
+your images into a collection of numbers. 
+In this video, you will prepare 
+your data and extract features so 
+that you are ready to train and later 
+evaluate a classification model. 
+First, you'll learn how to 
+adjust the labels of an Image Datastore, 
+and split the data into training and testing datasets. 
+The dataset you'll be working with does not 
+require extensive image processing. 
+However, for some datasets, 
+this step will include 
+additional processing to 
+enable effective feature extraction, 
+such as spatial filtering to remove noise. 
+Next, you'll create 
+features to use for machine learning. 
+Here, you'll use simple features that are 
+easy to interpret, like standard deviation. 
+The end goal is to turn the images of concrete, 
+some with cracks and some without, 
+into a table where 
+each image has a label and features describing it. 
+Let's begin by assigning labels. 
+Fortunately, with this concrete dataset, 
+your images have already been sorted into 
+two folders with names describing the images. 
+In this case, "Positive" for images with 
+cracks and "Negative" for images without cracks. 
+When you create a datastore 
+from this collection of images, 
+you can use folder names as labels. 
+The current labels are "Negative" and "Positive". 
+To make these labels more descriptive, 
+use the renamecats function to change 
+the existing labels to "No Crack" and "Crack". 
+Next, split the datastore into training and test sets. 
+The splitEachLabel command 
+takes a subset of each label, 
+and assigns them to a new datastore. 
+The fraction you input 
+determines the size of each subset. 
+For a dataset of this size, 
+it's common to use 80 percent of 
+your images for training and 
+the remaining 20 percent as the test 
+set to later evaluate your final model. 
+To avoid biasing which images within 
+a label go into the training and test sets, 
+use the "randomized" option. 
+For the rest of this video, 
+you'll only be working with the training set of images. 
+Now that your dataset is prepared, 
+the next step is to extract features. 
+Looking at several of the images, 
+notice how the cracks are quite 
+dark compared to the lighter concrete. 
+Therefore, you might expect images without cracks to have 
+higher average intensities and 
+fewer intensity differences compare 
+it to images with cracks. 
+Let's use these observations to 
+create features based on intensity. 
+Read the first image from the datastore. 
+Recall that before most computations, 
+you need to convert images to datatype double. 
+Then convert to grayscale to 
+isolate just the intensities of the pixels. 
+Based on the intensity differences 
+we observed between the labels, 
+it makes sense to use the mean and 
+standard deviation of each image's 
+intensity as features. 
+To link the features back to their original images, 
+extract the file name using the "fileparts" function. 
+Because you want to repeat this process many times, 
+initialize the variables and 
+use a while loop to extract 
+features for every image in the training set. 
+Finally, create a table with all your outputs. 
+Include the image labels, names, and features. 
+You may want to perform the exact same steps 
+every time you extract features 
+from a new set of concrete images, 
+so it's a good idea to save this code as a function. 
+Save the function as a code file in 
+the same folder as the rest of the code from this video. 
+Give it a descriptive name, 
+such as extractConcreteFeatures. 
+You can now call this function to extract these features 
+anytime you need to. 
+Make sure to save the table your function created. 
+You're going to use it later to 
+train your image classification model. 
+Also, save your training and test datastores. 
+Let's test out your new function 
+by calling it on the training set. 
+Perfect! 
+Now you have a table with 
+two features and a label for each image. 
+Now for the important question, 
+are you ready for classification? 
+It's a good idea to investigate 
+your features before you train your model. 
+In this case, you might want to 
+know if your chosen features are descriptive 
+enough to reasonably differentiate 
+concrete images with cracks from those without. 
+To explore whether the features you 
+extracted will help distinguish between these labels, 
+use gscatter, to plot both mean intensity 
+and standard deviation of 
+intensity, color-coded by label. 
+Voila! You can see a clear distinction between 
+the orange "Crack" class and the blue "No Crack" class. 
+It seems likely that you'll be able to find 
+a decision boundary that can 
+mostly separate these classes. 
+Now that you've prepared 
+your data and extracted features, 
+you've got everything you need to 
+start training machine learning models.
+Preparing the Concrete Images for Classification
+You now know how to prepare a collection of images and extract basic features. So, how can you extract and visualize features from the images of concrete?
+Navigate to the Module 1 folder and open the file preparingYourImagesForClassification.mlx. Work through the live script to extract features and save them for future use training and evaluating a classification model.
+Previously, you extracted some intensity-based features from the concrete 
+image dataset. 
+
+
+### Automated Hyperparameter Optimization in MATLAB
+For the remainder of this reading, you'll continue training a model to classify images with cracks in the concrete image dataset. Specifically, you'll optimize the value of K that results in the highest-accuracy KNN classifier.
+1. Choosing Hyperparameters to Optimize
+Load up a previously saved session in the Classification Learner App, or start a new one using the concrete data training table. Then select the Optimizable KNN Model from the dropdown menu.
+In the model's Summary window, you'll see multiple hyperparameters available to optimize. Hover your cursor over each one to see a quick summary of how it affects the model.
+ 
+Leave just the Number of neighbors hyperparameter checked, as this is the only one we want to optimize for now. Select "Read more about KNN model options" to learn more about the other hyperparameters.
+2. Choosing the Optimization Method
+You can also choose the automation method for finding the optimal hyperparameter values from this window.
+The Optimizer and Acquisition function options specify the algorithm used to determine which hyperparameter values to adjust. For most cases, you should stick with the default choice of "Bayesian optimization," which allows the optimizer to "intelligently" choose the hyperparameter values of each successive model based on the results of the previous ones. You can learn more about these options by selecting "Read more about Optimizer options".
+ 
+The number of Iterations determines the total number of models that will be trained. If you're only optimizing a few hyperparameters you can leave this number at its default value.
+Additionally, if you have a large dataset, you can set a Training time limit to specify how long you want the optimizer to run. Overall, you'll need to balance decreasing the training time limit with the possibility of not finding better hyperparameter values.
+3. Training the Optimized Model
+You're now ready to train your model using your customized optimization parameters. During training, you'll be able to watch the optimization progress in the "Minimum Classification Error Plot". Each iteration (along the x-axis) is a trained model, and the performance of the best model so far is measured using the minimum classification error (along the y-axis).
+ 
+The light blue points are used by the Bayesian optimization algorithm to decide successive model hyperparameter values, while the dark blue points represent the minimum classification error seen by any trained model. 
+
+4. Final Results
+Once complete, the final results can be interpreted using the Confusion Matrix. During this run, we achieved a validation accuracy of 97.4% for a KNN model with an optimized K = 5.
+ 
+If you perform these steps yourself, you may notice slight differences in your accuracies compared to what is shown here. This is because the validation and test datasets are chosen randomly each time, leading to slightly different results. However, for larger datasets like this one, the differences should be fairly negligible (within a few percentage points of accuracy), and the optimized value of K should be similar.
+Next Steps
+Try out this process yourself. The accuracy here is already pretty high, but can you do better? There are additional KNN hyperparameters that haven't yet been optimized.
+Later in the course, you'll encounter more datasets and predictor features with which to train additional classifiers. See if you can optimize your models then too.
+
+The Upcoming Assessments
+Congratulations on reaching the end of the module! Over the following two quizzes, you'll complete a small project described below.
+An image dataset titled Roadside Ground Cover is provided in the "Data/MathWorks Images/Roadside Ground Cover" folder of the course files. The images are organized into two subfolders: "Snow" and "No Snow." Here are some example images from each category:
+ 
+For the first quiz, you'll follow the machine learning workflow to prepare your images for classification and extract "mean saturation" and "standard deviation of saturation" as predictor features. In the following quiz, you'll develop a model in MATLAB that classifies these images as having or not having snow. 
+You can attempt these quizzes an unlimited number of times, so we strongly encourage you to submit this quiz after each question to confirm your progress at each step.
+
+Graded Quiz: Preparing Images for Classification
+Quiz30 minutes • 30 min
+Review Learning Objectives
+To train a classification model, 
+you need every image in your dataset 
+to have a single value for each feature. 
+This way, there is a quantitative means to relate 
+images to each other based on 
+their relative values for shared features. 
+We will call these ready to train features, 
+predictor features. 
+But how do you get these predictor features? 
+Sometimes, you can use simple predictor features 
+based on the calculations you perform yourself. 
+However, often, you will be unable to find features 
+that are distinguishing 
+enough to successfully classify images. 
+For example, 
+it was highly effective to use intensity-based 
+predictor features to differentiate 
+cracked and uncracked concrete, 
+but those same features were less 
+effective at classifying traffic signs. 
+You can frequently get better results using 
+one of the many algorithms available 
+for extracting feature descriptors. 
+Due to small variations in the images, 
+such as changes in lighting, 
+angle and surroundings, 
+even similar features will 
+have different descriptor values. 
+With no shared feature vectors, 
+it is difficult to create the matrix 
+we need to train a model. 
+In this video, you'll see how the bag of 
+features algorithm extracts 
+feature descriptors from images, 
+and uses them to produce predictor features.
+Play video starting at :1:38 and follow transcript1:38
+Consider this landscape image and its descriptors. 
+Sometimes, similar descriptors 
+commonly occur in other images. 
+Sometimes, they are rarely present in other images, 
+and some are unique to just one image. 
+The bag of features algorithm creates 
+a way to compare the images 
+by extracting descriptors across all of them 
+and clustering them into groups 
+based on how similar they are. 
+This process is called creating a visual vocabulary. 
+Descriptors with similar feature vectors will be 
+closer than descriptors with dissimilar feature vectors. 
+In practice, this comparison 
+takes place in many dimensions, 
+but only two are shown here for simplicity. 
+The bag of features method uses the k-means algorithm 
+to cluster the feature descriptors into groups. 
+Similar descriptors will be 
+clustered into the same group, 
+while descriptors with dissimilar values 
+will be assigned to different groups. 
+Each group is called a visual word. 
+Collectively, the groups are 
+the dataset's visual vocabulary. 
+Because of this, bag of features is 
+sometimes called bag of visual words. 
+This terminology comes from a similar technique 
+developed for text retrieval called bag of words. 
+After creating a visual vocabulary, 
+the algorithm revisits each individual image. 
+Each feature descriptor from 
+a given image is assigned to a visual word. 
+The occurrences of visual words are tallied 
+and then scaled by 
+the number of descriptors in that image. 
+These values will be your predictor features. 
+Visual words that occur frequently in an image, 
+will have a predictor feature value closer to one, 
+and visual words that do not appear in the image, 
+will have a value of zero. 
+These visual word rates are recorded in an M by N matrix, 
+where m is the number of images in the dataset, 
+and n is the number of groups or visual words 
+that appear across all images in the set. 
+These are your predictor features. 
+In summary, the bag of features algorithm 
+prepares a dataset of images for classification 
+by extracting feature descriptors, 
+clustering them into visual words, 
+and tallying visual word occurrence rates in each image. 
+Once you have this data, 
+you are ready to train your model.
+The bag of features algorithm takes a collection of 
+images, extracts feature descriptors, 
+creates a visual vocabulary, 
+and tabulates the visual word occurrence in 
+each image to create predictor features. 
+If this sounds exhausting, don't worry! 
+MATLAB performs all these steps with 
+a single function, bagOfFeatures. 
+In this video, you'll use bagOfFeatures in MATLAB 
+to create predictor features from 
+images of roadside ground cover. 
+These images contain either snow or no snow. 
+You will explore several algorithm parameters 
+to create predictor features. 
+Specifically, you'll choose a point selection method, 
+alter the grid size, 
+and change the block width. 
+Then you'll use these predictor features to 
+train a classification model. Let's get started. 
+First, perform some data preparation in MATLAB. 
+Use the folder of ground cover images 
+to create a labeled image datastore, 
+and then split the data into training and test sets. 
+Now it's time to extract features. 
+Input the training image datastore 
+into the bagOfFeatures function. 
+This single line of code 
+performs the entire extract feature step. 
+The function outputs a bagOfFeatures object or bag. 
+Create a matrix of predictor features by passing 
+this bag and the training image datastore 
+into the encode function. 
+The resulting matrix will have one row for 
+each image and one column for each feature. 
+500 features is the default. 
+To prepare these features for 
+the Classification Learner App, 
+go ahead and convert this matrix into a table. 
+Use the variable names 
+parameter to give each feature column a name. 
+Later, when you create a test set, 
+you'll use the same variable names. 
+Then add class labels. 
+Before you run this code, 
+there are some optional parameters 
+that you might consider 
+changing to tailor 
+the bagOfFeatures algorithm to your data. 
+The point selection parameter lets you choose how 
+the algorithm decides where to extract SURF features. 
+It has two options. 
+detector, which uses 
+image characteristics to find extraction points, 
+or grid, which extracts 
+descriptors from pre-specified locations. 
+Because SURF feature detection finds regions with 
+high contrast and a specific size, 
+detecting SURF features works best when 
+distinct details are 
+the most important parts of your image. 
+However, in many images, 
+the most distinguishing characteristics 
+don't have high contrast. 
+There are large areas with similar textures, 
+for example, landscapes or road signs like this one. 
+Despite their importance, 
+these areas would have few detector features. 
+This issue occurs with the ground cover images. 
+SURF detection identifies many points 
+in the branches and rocks, 
+but almost none in the snow, 
+which is the part of the image 
+that you are most interested in. 
+In cases such as these, 
+it's a good idea to extract 
+feature descriptors along a grid. 
+With this method, you extract 
+descriptors at a series of pre-specified locations. 
+This skips the detection step in favor of 
+collecting information uniformly across the whole image. 
+Grid is the default point selection method 
+used by bagOfFeatures. 
+It works well for many images 
+and it's good to use when you're in doubt. 
+You can set the size of the grid, and by extension, 
+how many feature descriptors are 
+collected with the grid step parameter. 
+Smaller step sizes are useful in 
+low resolution images or 
+in images where there are a lot of different textures. 
+In these cases, you need 
+the smaller step size to extract 
+enough descriptors to adequately describe your image. 
+In the ground cover dataset, 
+the images have a high resolution and 
+have a lot of large areas with similar textures. 
+The default grid step size of 
+eight pixels would give 
+you more feature descriptors than you 
+probably need to train a model and 
+would take a long time to extract from every image. 
+Back in MATLAB, speed things 
+up by increasing the grid step size to 24. 
+Recall that with SURF, 
+the gradient values of the surrounding neighborhood of 
+pixels are used to calculate feature descriptors. 
+The BlockWidth parameter determines 
+the size of this neighborhood. 
+By default, SURF uses 
+four block sizes to extract feature descriptors. 
+Because you're looking for large regions of snow, 
+you can use only the two largest 
+default block sizes to decrease training time. 
+If the accuracy of your trained models does suffer, 
+you can always create a new bag with 
+a smaller grid size and more blocks. 
+To give you an idea of the implications of creating 
+a bag with a larger grid and fewer blocks, 
+when I created a bag with these parameters, 
+it ran more than 15 times 
+faster than with the default settings. 
+Run your code and create a table of predictor features. 
+Depending on your dataset and parameters, 
+this could take some time. 
+Now you're ready to train a model using these features. 
+Open the Classification Learner App, 
+and start a new session with your predictor features. 
+As you did in the Training 
+Image Classification Models video, 
+train a few SVM and KNN models.
+Play video starting at :6:40 and follow transcript6:40
+You can see that our best result 
+is with one of the SVM models. 
+The last step is to evaluate your model with 
+the test data you set aside 
+at the beginning of this video. 
+Back in MATLAB, prepare a set of 
+predictor features using your bag and the test data. 
+Do not create a new bag from the test data! 
+This will create new clusters unique to the test set, 
+so new predictor features wouldn't be 
+comparable to the training 
+predictor features from earlier. 
+It would be as if the training and 
+test sets were speaking different languages. 
+Once you've created a matrix of 
+predictor features for your test set, 
+convert it to a table and add labels. 
+Remember the feature names you 
+created for the training predictor features? 
+Include them again as the VariableNames perimeter. 
+This way, the model can 
+find the right features to make its prediction. 
+Finally, import the test predictor feature table 
+into the app and test all your models. 
+It looks like your training accuracy 
+is comparable to our test accuracy. 
+Great! With just a few lines of code, 
+you automatically extracted 
+predictor features tailored to your data. 
+For more ways to customize the bagOfFeatures function, 
+check out the documentation.
+Practice Using Bag of Features
+You have seen how the Bag of Features algorithm can be used to automatically create predictor features from a collection of images. Here, you will practice using the bagOfFeatures function with different input arguments to create these features. 
+Navigate to the Module 2 folder and open practiceUsingBagOfFeatures.mlx. Work through the live script to create predictor features and use them to train models in.
+Project: Introduction to Ground Cover Classification
+You have seen multiple approaches to extracting features from images of roadside ground cover. Specifically:
+•	Hand-selecting features based on image saturation values
+•	Automatically generating features using bagOfFeatures
+Now, you will use two models trained with features generated using the above approaches to classify a new, unlabeled image: 
+ 
+To perform this task, read this project introduction. Then, open predictUnlabeledGroundCoverImage.mlx to get started. 
+To classify the new, unlabeled image using hand-selected features, you should:
+1.	Create a table of saturation-based predictor features for the unlabeled image. This table should be named gcTableSaturation and have variables named avgSat and stdSat that contain the mean saturation and standard deviation of saturation, respectively. Note: To extract saturation-based predictor features, you must first convert the unlabeled image into the HSV color space.
+2.	Use gcClassifierSaturation.predictFcn to classify the unlabeled image. Attach the output of this classification to gcTableSaturation as a new variable named prediction. The new, predicted label should be a categorical variable detailing "Snow" or "No Snow". To review using predictor functions, revisit the "Training Image Classification Models" video in Week 1 of this course.
+Then, to classify the new, unlabeled image using bag of features, you should:
+1.	Create a table of predictor features for the unlabeled image by encoding it using the provided bag of visual words object, bag. This table should be named gcTableBag and contain predictor feature variables named f1 through f500. To review using predictor functions, revisit the "Training Image Classification Models" video in Week 1 of this course.
+2.	Use gcClassifierBag.predictFcn to classify the unlabeled image. Attach the output of this classification to gcTableBag as a new variable named prediction. The new, predicted label should be a categorical variable detailing "Snow" or "No Snow".
+When you are ready, confirm that your code behaves as expected by submitting it for grading using the online MATLAB Grader following this reading. If you need help, post to the discussion forums. 
+Good luck! 
+Project: Ground Cover Classification with Different Classification Models
+Apply Bag of Features to classify an image.
+________________________________________
+This course uses a third-party app, Project: Ground Cover Classification with Different Classification Models, to enhance your learning experience. The app will reference basic information like your Coursera ID.
+Coursera Honor Code  Learn more
+Project: Ground Cover Classification with Different Classification Models
+Consider the previous project, where you used two classification models with different predictor features to predict the class of an unlabeled image (below).
+ 
+Did the two models make the same prediction? Were the predictions correct? Why do you think they got the results that they did?
+
+
+Previously, you've seen confusion matrices 
+as a method for evaluating classification models. 
+In this video, you'll learn how to construct 
+a confusion matrix from which you'll 
+derive four key evaluation metrics: recall, 
+fallout, precision, and accuracy. 
+Next, you'll see why it's 
+necessary to consider trade-offs 
+among these metrics when 
+evaluating classification model performance. 
+Finally, you'll work with 
+Receiver Operating Characteristic curves to 
+systematically evaluate the trade-off 
+between recall and fallout. 
+Let's get started with 
+a simple example of binary classification. 
+Recall a binary classification model 
+uses the decision boundary 
+to separate two classes of data, 
+in this case, positives and negatives. 
+Although in general, 
+the decision boundary does not 
+have to be a straight line, 
+this video focuses on 
+this simple case to illustrate the concepts. 
+Data points on one side of 
+the decision boundary are predicted to be positive, 
+and data points on the other side 
+are predicted to be negative. 
+There are 12 data points in the positive class, 
+and this model correctly identifies nine of them. 
+These are the true positives. 
+You can see this abbreviated as TP. 
+The remaining three positives that were classified as 
+negatives are the false negatives. 
+Similarly, there are 
+12 data points in the negative class. 
+The 10 of them that were correctly 
+classified are the true negatives. 
+Finally, the two negatives 
+incorrectly classified as positive, 
+are the false positives. 
+A common way to evaluate these four quantities 
+together is using a confusion matrix. 
+The true values are grouped by row, 
+and the predicted values are grouped by column. 
+Each quadrant in the confusion matrix 
+represents the corresponding number of true positives, 
+true negatives, false positives, and false negatives. 
+These four quantities form the basis of 
+all the classification evaluation methods in this video. 
+The total actual positives is equal to 
+the sum of the true positives and false negatives. 
+Similarly, the total actual negatives 
+equals false positives plus true negatives. 
+Total predicted positives equals 
+true positives plus false positives, 
+and total predicted negatives equals 
+false negatives plus true negatives. 
+The four key metrics mentioned earlier in this video, 
+recall, fallout, precision, 
+and accuracy, can all be calculated from here.
+Play video starting at :3:15 and follow transcript3:15
+Let's take a closer look at each of them 
+individually before 
+considering the trade-offs among them. 
+Recall, tells you how much of 
+a given class is correctly identified by a model. 
+Here, that is the ratio of the data correctly 
+classified as positive to the total positive data.
+Play video starting at :3:40 and follow transcript3:40
+Fallout tells you how many false 
+alarms the model generates for a given class. 
+For binary classification, this is the ratio of data 
+incorrectly classified as positive 
+to the total negative data.
+Play video starting at :3:59 and follow transcript3:59
+Precision represents the fraction of 
+classifications to a given class that we're correct, 
+which is the ratio of 
+correctly classified positive data 
+to the total data classified as positive.
+Play video starting at :4:17 and follow transcript4:17
+Accuracy is the overall rate 
+a model correctly classifies data. 
+It is the fraction of all correct predictions 
+to the total of all predictions, 
+in other words, how often 
+the model got its predictions right overall.
+Play video starting at :4:38 and follow transcript4:38
+If the classification is 
+perfect, the accuracy, precision, 
+and recall will be one, 
+and the fallout will be zero. Simple, right? 
+Unfortunately, most of the time 
+you will not be able to achieve this kind of ideal. 
+Instead, you'll have to consider trade-offs in 
+the context of a model's optimal capabilities 
+for the intended application. 
+To see this, let's return to the example. 
+The model has an accuracy of 79 percent, 
+a recall of 75 percent, 
+a precision of 82 percent, 
+and a fallout of 17 percent. 
+Would this be acceptable performance 
+for a real-life situation? 
+In a situation like cancer detection, 
+a false positive may cause 
+a temporary anxiety for a patient, 
+but a false negative, in other words, 
+a missed positive, could have potentially deadly results. 
+Here, you may want to maximize 
+recall to ensure you don't miss any positives. 
+You have to be careful though. 
+By changing the decision boundary, 
+you can make recall 100 percent. 
+However, accuracy will decrease to 
+71 percent and worse yet, 
+the new false positives will drop precision down to 
+63 percent and increase the fallout to 58 percent. 
+As another example, imagine you're training 
+an image classifier to identify overripe fruit. 
+Your initial goal might be to reduce the number of 
+fruit incorrectly identified as overripe. 
+In this case, reducing fallout will 
+lower the number of 
+false positives generated by your model. 
+Again though, be careful. 
+If you change the decision boundary 
+to make fallout zero percent, 
+the accuracy will be 71 percent. 
+However, this will increase 
+false negatives so that 
+your recall drops down to 42 percent. 
+In other words, your model would let 
+58 percent of bad fruit through. 
+In real life scenarios, 
+there will rarely be a decision boundary that 
+perfectly separates the positives and negatives. 
+You need to consider 
+the inherent trade-offs to build an acceptable model. 
+Based on what you've seen so far, 
+it may be tempting to assume that while 
+the other metrics may give 
+contradictory priorities to the model, 
+shooting for high accuracy 
+will find a good balance among them all. 
+This works sometimes, but yet again, 
+you have to be careful. 
+If your data has a class imbalance, 
+for example, a large majority of the data is negatives, 
+then a model that predicts nearly, 
+if not every data point to be negative, 
+will have high accuracy 
+and even high precision and low fallout. 
+However, the recall will suffer. 
+What about when you have a large majority of positives? 
+In this case, a model that predicts almost, 
+if not all data as positive, 
+will again have high accuracy. 
+What happens to the other metrics? 
+At this point, you may correctly suspect it is 
+a good idea to always look at 
+multiple metrics when evaluating a model. 
+For example, both recall and fallout. 
+An effective way to evaluate a model using 
+both recall and fallout is to 
+construct the ROC curve and determine 
+the area under the curve, or AUC. 
+ROC stands for Receiver Operating Characteristic, 
+a term that comes from 
+radar engineering where it was first developed and used. 
+The ROC curve represents 
+recall and fallout for a model as 
+functions of a threshold parameter that varies from 0-1, 
+moving the decision boundary through the range of data. 
+The area under the curve also ranges from 0-1, 
+with better models being closer to one. 
+Now let's see what's behind all of this. 
+First, let's talk about the threshold parameter. 
+Various binary classification models will assign 
+a confidence score or 
+probability of a data point being positive, 
+ranging from 0-1, 
+which can be plotted as contours. 
+As you have seen, the decision threshold 
+can vary throughout 
+this range affecting 
+both recall and fallout metrics as it changes. 
+Vary the threshold from 0-1, 
+and calculate the recall and fallout. 
+The calculated recall and 
+fallout values are used to construct the ROC curve. 
+Notice that ROC curves 
+always start from the upper right corner. 
+This is because for a threshold of zero, 
+all data will be classified as positive, 
+so both recall and fallout will be one. 
+As the threshold value progresses through the data, 
+the recall and fallout will change 
+accordingly until the threshold reaches one, 
+where all data will be classified as negative, 
+making both recall and fallout zero. 
+In practice, the ROC curve is 
+often constructed with more granularity. 
+In general, various models will have 
+different ROC curves and 
+therefore different areas under them. 
+An AUC value close to one indicates that 
+the model can achieve high recall 
+while still maintaining low fallout. 
+As the area under the curve decreases, 
+the amount of fallout necessary to 
+achieve high recall gets worse. 
+At an area of 0.5, 
+the model is essentially making random predictions. 
+Below this, the model is actually 
+better at predicting incorrectly than correctly. 
+The ROC curve is 
+useful for helping you determine where to set 
+a decision boundary by 
+visualizing how recall and fallout are related. 
+Let's summarize. In this video, 
+you learned how to construct a confusion matrix and 
+derive key metrics for evaluating classification models. 
+You saw how evaluating a classification model 
+requires considering trade-offs and how 
+to work with Receiver Operating 
+Characteristic curves to systematically 
+evaluate the trade-off between 
+two metrics, recall and fallout.
+[MUSIC] 
+Accuracy is a useful way to evaluate a model's effectiveness by 
+assessing its ability to correctly label images across all classes.
+Play video starting at ::18 and follow transcript0:18
+However, to meet an application's needs, you'll often 
+need to consider other metrics, such as recall and fallout. 
+For the rest of this video, imagine you're training a model to 
+classify images of concrete and find areas in need of repair. 
+Incorrectly asserting that there is a crack and 
+undamaged concrete will result in wasted effort, 
+but missing a crack could be dangerous. 
+So how can you adjust your training approach when not all 
+errors have equal consequences? 
+Because false positives lead to less severe errors than false negatives, 
+instead of finding the highest overall accuracy, 
+you'll want to emphasize the recall of the crack class. 
+To this end, assume the goal is to correctly identify 99% of the cracks, 
+while keeping the false positives below 10%.
+Play video starting at :1:22 and follow transcript1:22
+In this video, you'll use the Classification Learner App, 
+to visualize a model's recall and fallout using confusion matrices and ROC curves. 
+Then, you'll train a model that takes misclassification 
+severity into account using a cost matrix. 
+Let's get started. 
+In the Classification Learner App, we've trained a KNN 
+model that classifies images as having cracks or no cracks. 
+This model has a high accuracy, 
+but, let's see if it meets the application's goals. 
+Open the confusion matrix to examine its ability to identify cracks, and 
+select true positive rates, false negative rates to show each class's recall. 
+Remember true positive rates is synonymous with recall and 
+false discovery rates is another term for fallout. 
+Therefore, if you instead wanted to see the model's fallout, you'd select 
+the positive predictive values, false discovery rates option. 
+Looking at the cracks' true positive rate, 
+you can see that the recall is below the goal of 99%. 
+Too many cracks are being missed. 
+Open the ROC curve, and set the positive class to crack. 
+An ROC curve allows you to visualize both metrics, 
+recall and fallout, in a single plot. 
+The area under the curve or AUC is a simple to interpret metric for 
+a model's balance of recall and fallout. 
+The higher the score, the better. 
+We know from the confusion matrix that the current model's performance 
+is falling short of its goal. 
+But before you train a new model, 
+you'll want to know if the desired result is even possible. 
+To answer this question, examine the ROC curve to see if there's any point where 
+the recall is at least 99%, and the fallout is below 10%. 
+Zoom in and click points on the curve, to see their values.
+Play video starting at :3:48 and follow transcript3:48
+Aha! You can see that there is a place where the recall and 
+fallout meet the requirements. 
+The current model treats all errors as being equally bad. 
+However, in this case, 
+missing a crack is worse than predicting a crack that isn't there. 
+You can train a new medium KNN model that shifts the balance 
+towards higher correct recall, using a cost matrix.
+Play video starting at :4:19 and follow transcript4:19
+A cost matrix trains models biased against certain errors, 
+by changing their misclassification costs. 
+In other words, 
+it tells a model how much it should penalize each mistake during training. 
+The diagonal values in a cost matrix, are always zero. 
+These classifications are correct. 
+There's no need to penalize them. 
+By default, the Classification Learner App assigns the same penalty for 
+all misclassifications. 
+But you can emphasize the importance of avoiding certain 
+mistakes by increasing their costs. 
+The model you train will be five times more biased against false negatives than 
+false positives.
+Play video starting at :5:7 and follow transcript5:07
+See how the costs of your new model are now set to custom? 
+You're ready to train.
+Play video starting at :5:18 and follow transcript5:18
+As might be expected, the resulting model has slightly lower accuracy, 
+but it also has a much higher crack recall. 
+Not bad. 
+Check the ROC curve. 
+Remember to plot the crack class. 
+The new classifier meets the specifications of 
+having at least 99% recall with a fallout below 10%. 
+Congratulations, you've successfully tailored a model to meet your needs.
+Play video starting at :5:52 and follow transcript5:52
+The concepts discussed in this video also apply to models with multiple classes, 
+such as this model trained to distinguish between four different traffic signs. 
+By looking at the confusion matrix, 
+you can characterize differences between every class. 
+For example, road closed signs were most often mistaken for yield signs. 
+Not a good mistake to make. 
+In the multi class case, the false negative rate is the sum 
+of the false negative rates of the individual signs. 
+As with the two class case, the recall and 
+the fallout are reflected with individual ROC curves for each class.
+Play video starting at :6:42 and follow transcript6:42
+In conclusion, the metrics you use to evaluate your classification 
+model depend on the questions you're trying to answer. 
+Accuracy is a great metric when every error is treated the same, but 
+if your application emphasizes the specific class, utilize recall, 
+fallout, and cost matrices, to train and evaluate the model you need. 
+[MUSIC]
+[MUSIC] 
+You've now implemented the entire machine-learning workflow for 
+image classification. 
+You've done this for a few example datasets and 
+the results have been promising, 
+but you might not be able to achieve good results the first time around. 
+Machine learning is an iterative process. 
+It's common to revisit workflow steps to improve your model. 
+There are numerous ways to enhance data preparation, 
+many standard and custom algorithms for extracting features, 
+and lots of ways to optimize model training. 
+So when your evaluation results are not what you expect, 
+the nature of your results can point you towards potential fixes. 
+In this video, we'll walk through three common issues you 
+might encounter during your evaluation step and 
+what parts of the workflow could be changed to fix the issues. 
+First, what if your trained model has low validation accuracy? 
+This could result from problems in any of the workflow steps, 
+so it's a good idea to check the easiest things first. 
+There is a chance that your trained model is too simple and 
+therefore underfitting your data, 
+so perhaps it's worth training more complex models while you're 
+in the Classification Learner App.
+Play video starting at :1:38 and follow transcript1:38
+Also, be sure to optimize your hyperparameters. 
+Each model has its own default values but what's best depends on your data set. 
+For example, for a KNN model, you'll likely need to optimize 
+the number of neighbors parameter to suit the size of the training set. 
+If you can't get sufficient improvements during model training, 
+take another step back and try to improve your extracted features.
+Play video starting at :2:11 and follow transcript2:11
+You've previously worked with hand-selected features based on 
+statistical averages of intensity to classify images of concrete and 
+saturation to classify images of ground cover. 
+However, the number and complexity of potential features are limitless. 
+For example, if classifying coins, 
+a simple predictor feature could be their size. 
+Calculating region-based properties involves standard image 
+processing techniques like segmentation and region analysis, 
+topics covered in our Image Processing Specialization on Coursera.
+Play video starting at :2:54 and follow transcript2:54
+If your images can't easily be classified using hand-selected features, 
+use the Bag of Features algorithm. 
+Remember to tune parameters such as the point selection method and 
+grid size to best capture the defining characteristics of your images.
+Play video starting at :3:14 and follow transcript3:14
+You also aren't restricted to using only one type of feature. 
+Try different feature extraction methods when creating the feature bag or even 
+combine them with hand-selected features before importing them into the app.
+Play video starting at :3:29 and follow transcript3:29
+Alternatively, you could train a deep-learning model. 
+These algorithms are more complex but are potentially very 
+powerful if you have enough images and computational resources. 
+If you want to learn more about these techniques, 
+check out the free Deep Learning Onramp at mathworks.com.
+Play video starting at :3:52 and follow transcript3:52
+The second common issue is if your validation accuracy is high but 
+the recall of the specific class is low. 
+This is a common scenario in problems like cancer detection where 
+false positives are less significant than false negatives. 
+In this case, adjusting the cost matrix will usually lower the overall 
+accuracy but will increase the recall for a specific class.
+Play video starting at :4:23 and follow transcript4:23
+Another common cause of low recall is having an imbalanced 
+dataset where one class vastly outnumbers another. 
+In this case, a model can reach a near-perfect accuracy simply 
+by classifying all images as the majority class.
+Play video starting at :4:42 and follow transcript4:42
+If you have sufficient data, consider returning to the prepared data step. 
+By removing images from the majority class in your training data set, 
+you can balance the classes and improve your results. 
+This technique is known as under sampling.
+Play video starting at :5:4 and follow transcript5:04
+The last issue we'll discuss is when your 
+test accuracy is much lower than your validation accuracy. 
+Remember test data is always split off and preserved at the very beginning. 
+This ensures that when you get to the end of the workflow, 
+you've performed the steps correctly and haven't biased your results.
+Play video starting at :5:27 and follow transcript5:27
+If the two accuracies don't agree, 
+it's likely that your data has been improperly split. 
+This results in your model being trained to overfit data that 
+is no longer representative of the original data set. 
+This could have happened when you prepared 
+your data if you didn't randomly divide the training and testing sets, 
+or just prior to training your model if you 
+chose an insufficient validation scheme. 
+Remember cross-validation is generally a good choice to prevent 
+overfitting your models.
+Play video starting at :6:5 and follow transcript6:05
+These were three common issues you'll likely encounter when developing image 
+classification models. 
+Use the tips in this video to identify how best to fix issues in your own data sets. 
+Just remember that the machine learning workflow is meant to be iterative and 
+you should always consider revisiting any of the previous steps to help 
+improve your results. 
+[MUSIC]
+Common Issues in Image Classification: A Reference
+ 
+Project Introduction: Classifying Traffic Signs
+You have learned how to build effective classification models, including preparing your images, extracting a variety of features, training multiple models, and evaluating the effectiveness of the models you have trained. 
+In this project, you will get to implement the machine learning workflow to classify the following categories of traffic signs: 
+Yield:
+ 
+Do Not Enter:
+ 
+End All Restriction:
+ 
+Road Closed:
+ 
+Classifying traffic signs is essential for applications such as automated driving and city planning. These signs were chosen for this project because they share many characteristics but have very different meanings. Therefore, your trained model must find an effective way to distinguish between them. 
+A data set of traffic sign images, organized by class, is included in the course download. Your task is to walk through the machine learning workflow to prepare these images, extract features, train, and evaluate a classification model. Your goal is to create a model with a test accuracy of at least 90%. 
+Open the classifyingTrafficSigns.mlx live script reading from "Module 3" of the course files and follow the instructions.
+Once you are satisfied with your trained model, take the following quiz, "Project: Classifying Traffic Sign Images." It will pose questions about your process and your final model and ask you to further explore the data by performing additional training.
+Classification is useful for labeling entire images. 
+But often, you'll need to locate an object within 
+a larger image or even identify multiple objects. 
+In these cases, you'll need to do detection. 
+In this video, you'll learn to train an object detector. 
+Specifically, we'll cover the ACF algorithm, 
+which stands for aggregate channel features. 
+ACF detectors work by sliding 
+a small window over 
+an image and running a trained classification model. 
+If the classifier finds a positive result 
+then the bounding box coordinates are stored. 
+Because ACF is repeated classification, 
+this algorithm still follows 
+the same machine learning work-flow to train a model. 
+For the rest of this lesson, 
+we'll train a detector using 
+these images of a railroad crossing signs. 
+The first step in preparing your data comes with 
+the additional task of obtaining 
+the ground truth data for your images. 
+This data contains a list of 
+the images and 
+the bounding box coordinates of each object. 
+In this case, we've provided this data for you. 
+The next step before training is feature extraction. 
+ACF is a popular machine-learning detection algorithm 
+because of its speed. 
+It uses simple features, 
+sometimes called channels, that are 
+quick to calculate, like pixel intensity. 
+ACF detectors use 10 channels to help detect objects. 
+Three channels are from the LUV color space 
+where L is luminosity and U and V specify color. 
+One channel uses gradient intensity 
+to measure edge strength. 
+The remaining six channels 
+measure the orientations of these edges. 
+Together these 10 channels 
+identify distinctive characteristics of an object. 
+For example an animal 
+could be identified using its colors, 
+while railroad signs might 
+be detected from their angled edges. 
+These channels are then combined or 
+aggregated into a list of predictor features. 
+The ground-truth is used to identify 
+positive samples representing areas with the objects, 
+and negative samples of areas not containing the objects. 
+Finally, the detector is trained to 
+differentiate between positive and negative samples. 
+Using a train detector on an image requires 
+repeatedly classifying sections of 
+it within a sliding window. 
+Each window is assigned a score quantifying how 
+closely it's predictor features 
+match those of the desired object. 
+If the score is above a certain threshold, 
+then the window is considered as positive, 
+and the coordinates are saved as a bounding box. 
+Depending on the sliding window size and spacing, 
+bounding boxes may overlap. 
+The final step of detection is to 
+merge them if they intersect enough. 
+You now know the principle behind ACF object detection. 
+How do you do it in MATLAB? 
+The first step in preparing your data is to 
+ensure that you have separate training and testing sets. 
+In this case, we've already separated 
+the training and testing images 
+into their own sub folders. 
+We've also provided the mat file containing 
+the ground truth bounding box coordinates for each image. 
+Start by loading 
+the ground-truth variable into your workspace. 
+The next steps of extracting features and training 
+a model are combined in 
+the function train ACF object detector. 
+This function takes a table variable 
+of the ground truth as input, 
+which you can generate from the ground truth variable 
+using the function object detector training data. 
+The output of the train detector function will 
+be a new variable that contains the train detector. 
+Now you're set. So let it run. 
+While the training continues. 
+You can watch the progress in the output. 
+Once completed, the train model 
+is of type ACF object detector, 
+and it's stored in the workspace. 
+To apply it to some new test images, 
+use the detect function, 
+which accepts the train detector 
+and the image you want to apply the detection to. 
+You can also detect on multiple images at 
+once by using an image data store. 
+For example here we'll pass in the data-store of 
+the testing images into 
+the second input of the detect function. 
+The output is a table containing bounding box coordinates 
+and the score for any railroad signs that were detected. 
+In this case, there are only 10 images, 
+so you can visually check the accuracy 
+of your results directly in the live script. 
+To do this, first create a loop 
+for your data-store that overlays 
+the bounding boxes of the detected objects on 
+the image and displays the results in sequence.
+Play video starting at :6:8 and follow transcript6:08
+This detector did a great job isolating signs 
+from the background as there are no false positives. 
+However, there are a couple of images 
+where the signs were not correctly detected. 
+But overall, not bad for 
+a detector trained on only 90 images. 
+Keep in mind that there are 
+many user defined parameters 
+that we left as the default values, 
+such as increasing the complexity of 
+the model or constraining 
+the size of the windows used during detection. 
+These parameters can be used to try and 
+improve the accuracy of your detectors, 
+but usually with a trade-off and speed. 
+To learn more about these options, 
+be sure to visit the documentation.
+
+
+#### Object Detection in MATLAB
+Navigate to the "Module 4" folder and open the file ObjectDetectionWithML.mlx. Work through the live script to detect railroad signs, as was shown in the previous video. There is also some additional information on how to evaluate detection models.
+You'll also follow a similar process in the upcoming project.
+
+training a detection model requires images with ground truth labels. 
+This includes the coordinates of the bounding boxes 
+around the objects of interest in this video. 
+You will use the image labeler app to generate a data sets. 
+Ground truth. 
+The first step is to import the images from the dataset. 
+For this example, we'll label these images of railroad crossing signs. 
+Once in the app, images appear in the thumbnail strip below, 
+which can be used for quick navigation. 
+The selected image from the thumbnails is shown in the center, 
+ready to be labeled on the left side. 
+You can create R. 
+O. I. 
+Or region of interest labels such as a bounding box, 
+create a label for the railroad signs. 
+There are a few different types of labels available for 
+this example, we'll use rectangles as they are the most common for 
+object detection, create your first label by drawing it around the railroad sign. 
+If you make a mistake, use control Z to undo the action or 
+make small adjustments to the box as needed. 
+Sometimes you need multiple labels. 
+For example, an automated driving a vehicle may also need 
+to locate the red lights to check if they are flashing. 
+So create a label for the lights. 
+To In this case there are two lights to label, so 
+we'll copy and paste the second bounding box. 
+The image labeler app can also be used to verify existing labels for a data set. 
+You can import a ground truth using the import button. 
+Labeling images for classification is also possible. 
+This is known as scene labeling and is performed using the scene labels tab. 
+Once you're finished labeling, export the ground truth as a mat file, 
+Then use the load function to import your ground truth. 
+This variable contains a few properties. 
+The label definitions as defined in the app, 
+data source contains the location of image files while 
+label data stores the bounding box coordinates that worked well. 
+But what if you need to label video frames instead of individual images? 
+In this case, use the video Labeler app. 
+Instead, the workflow here is very 
+similar to that of the image labeler app. 
+However, one advantage is that objects can be tracked across frames to do this. 
+Use an automated labeling algorithm 
+to track a labeled object once you 
+have your first label in place, 
+start the automation to label subsequent frames except or 
+adjust the results as needed. 
+Both the image and video Labeler apps allow for quickly generating ground 
+truths for your data set and remember even if the labeling is already done, 
+it's often worth using these apps to confirm labels before training your models
+From cracks in concrete to mistakes and microchips, 
+locating defects is 
+a common application for object detection. 
+For this project, you'll train 
+an ACF detector on defects found in wooden boards. 
+The specific type of defect is called a knot. 
+Knots exist where a branch was located on 
+the tree and can reduce a board strength. 
+Your goal is to train a detector that 
+identifies all the wood knots in a set of test images. 
+This project is divided into 
+three steps with check-in assessments along the way. 
+In Step 1, you'll familiarize yourself with the dataset. 
+The data has already been 
+split into training and testing sets, 
+and the training set has already been labeled for you. 
+You will need to label the test sets 
+ground truth using the image label or app. 
+For Step 2, you'll train 
+an ACF detector and 
+evaluate your results on the newly labeled test data. 
+Remember that developing machine-learning models 
+is an iterative process, 
+the same is true for this project. 
+In Step 3, you'll improve 
+your detector to achieve better results. 
+Along the way, you'll also 
+evaluate some detection metrics, 
+including the detection miss rate and precision. 
+Be sure to complete each steps assessment in order. 
+You're encouraged to try them any number of 
+times to ensure you're on 
+the right track before proceeding. 
+If you have any questions or interesting results, 
+remember to share them in the forums. Good luck.
+Beginning the Wood Knots Detection Project
+To complete this project, you'll use a live script prepared for you in the course files. This script is similar to what was covered in the video "Object Detection with Machine Learning" but has been updated to use the wood knots dataset for this project.
+To begin, navigate to the Module 4 folder and open the file WoodKnotsDetectionProject.mlx in MATLAB.
+Follow the instructions there, and when prompted, answer the questions in the quizzes here on Coursera.
+Extra Credit: Removing Redundant Detections
+As noted in the final extra credit question from the previous quiz, there are some knots in the test images that received multiple detections, like this one:
+ 
+Use the last Extra Credit section of the live script to modify your detection results. See if you can get rid of the overlapping, redundant detections. Hint: use the selectStrongestBbox function. 
+
+Congratulations, classifying images and 
+detecting objects are two of the most important tasks in computer vision. 
+Now, you can do both with machine learning.
+Play video starting at ::18 and follow transcript0:18
+Every application requires properly prepared data. 
+You're now ready to label images for classification or 
+detection and split your data for training and testing.
+Play video starting at ::31 and follow transcript0:31
+Each problem is different. 
+The extracted features that work for one data set may fail for another. 
+Fortunately, you've learned how to try a variety of approaches to find 
+the best one for your images.
+Play video starting at ::46 and follow transcript0:46
+Even with good features, it can be hard to know which models will work. 
+You are now able to quickly train different models and 
+evaluate your results.
+Play video starting at ::58 and follow transcript0:58
+You've not only performed each of these steps, you've learned iteratively 
+improve your results and identify pitfalls using the machine learning workflow. 
+With these skills, you're ready to tackle a wide range of classification and 
+detection problems, from identifying defects to improving road safety.
+Play video starting at :1:21 and follow transcript1:21
+If you're interested in exploring machine learning for other applications, check out 
+MathWorks course on predictive modeling with machine learning with MATLAB. 
+But first, to keep learning advanced computer vision techniques, 
+continue on to course 3 of the specialization. 
+Hey Matt, can you tell us more? 
+>> Thanks Megan. 
+In course 3 of this specialization, you'll leverage your familiarity with machine 
+learning to use pretrained deep neural networks to perform object detection.
+Play video starting at :1:52 and follow transcript1:52
+You already know a few ways to detect objects and images and video frames.
+Play video starting at :1:57 and follow transcript1:57
+But how do you differentiate objects across many video frames. 
+In this course, you'll learn to do this with object tracking. 
+In the final project, 
+you'll apply your new skills to track cars on a busy highway. 
+See you there.
